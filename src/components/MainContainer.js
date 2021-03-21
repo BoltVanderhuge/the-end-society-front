@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Switch } from 'react-router'
 import styled from 'styled-components'
 import Header from './Header'
@@ -6,8 +6,20 @@ import SearchBar from './SearchBar'
 import GameSearch from './GameSearch'
 import SelectedGameInfo from './SelectedGameInfo'
 import RunInfo from './RunInfo'
+import { setRuns } from '../redux/runsSlice';
+import { useDispatch, useSelector } from "react-redux";
 
 function MainContainer() {
+    const runs = useSelector((state) => state.runs);
+    const dispatch = useDispatch();
+    useEffect( () => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`)
+        .then( response => response.json() )
+        .then(data => dispatch(setRuns(data)));
+        // .then(data=>console.log(data))
+        
+    }, [])
+    console.log(runs)
     return (
         <Container>
             <HeaderContainer>

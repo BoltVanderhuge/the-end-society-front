@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const runSlice = createSlice({
   name: "run",
-  initialState: {},
+  initialState: false,
   reducers: {
     setRun(state, action) {
       return action.payload;

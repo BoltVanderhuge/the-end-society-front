@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Login from './Login'
 import Root from './Root'
 import MainContainer from './MainContainer'
+import RunContainer from './RunContainer'
+import ProfileContainer from './ProfileContainer'
 import {Switch, Route} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../redux/userSlice';
@@ -36,6 +38,13 @@ function App() {
       <Route exact path = '/centralcommand'>
           <MainContainer />
       </Route>
+      <Route exact path = '/run'>
+          <RunContainer />
+      </Route>
+      <Route exact path = '/profile'>
+          <ProfileContainer />
+      </Route>
+
     </Container>
   );
 }
