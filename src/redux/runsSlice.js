@@ -7,8 +7,11 @@ const runsSlice = createSlice({
     setRuns(state, action) {
       return action.payload;
     },
+    addToRuns(state, action) {
+      state.push(action.payload);
+    },
   },
 });
 
-export const { setRuns } = runsSlice.actions;
+export const { setRuns,addToRuns } = runsSlice.actions;
 export default runsSlice.reducer;

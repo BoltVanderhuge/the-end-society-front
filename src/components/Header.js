@@ -16,12 +16,30 @@ function Header() {
       function goToLogin(){
         history.push("/login")
       }
+      function goToCollection(){
+        console.log("click")
+          history.push("/collection")
+      }
+
+      function goToGameSearch(){
+        console.log("click")
+        history.push("/centralcommand")
+    }
+
+    function goToRuns(){
+      console.log("click")
+      history.push("/runs")
+  }
     const user = useSelector((state) => state.user);
     return (
         <ButtonContainer>
-        <button value="run" >Run Collection</button>
+        <button onClick={goToCollection} value="run" >Run Collection</button>
+        <button onClick={goToGameSearch} value="run" >Game Search</button>
         { user && 
         <button value="profile">Profile</button>
+        }
+        { user && 
+        <button onClick={goToRuns} value="myruns">My Runs</button>
         }
         <button onClick={user ? logout : goToLogin}>
           {user ? "Logout" : "Login" }

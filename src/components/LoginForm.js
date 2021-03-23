@@ -46,7 +46,7 @@ function LoginForm() {
             }
           })
           .then((data) => {
-            dispatch(setUser(data))
+            dispatch(setUser(data.user))
             console.log(user)
             localStorage.setItem("token", data.token);
             history.push("/centralcommand");

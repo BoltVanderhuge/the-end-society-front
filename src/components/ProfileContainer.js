@@ -3,7 +3,7 @@ import React from 'react'
 function ProfileContainer() {
     return (
         <div>
-            
+            Profile
         </div>
     )
 }

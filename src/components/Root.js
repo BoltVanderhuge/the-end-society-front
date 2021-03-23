@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import useSound from 'use-sound';
 import door from './sounds/door.wav'
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from '../redux/userSlice';
+
 
 function Root() {
   const user = useSelector((state) => state.user);
