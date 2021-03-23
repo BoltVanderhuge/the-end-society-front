@@ -28,7 +28,6 @@ function LoginForm() {
    
       function handleLoginSubmit(e) {
           e.preventDefault();
-          console.log(formData)
         fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, {
           method: "POST",
           headers: {

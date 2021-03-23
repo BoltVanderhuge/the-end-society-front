@@ -37,12 +37,8 @@ function RunInfo() {
     }
     const game = useSelector((state) => state.game);
     const runs = useSelector((state) => state.runs);
-    console.log("runs",runs)
-    console.log("game",game)
-    console.log("user", user)
 
     const existingrun = runs.find(run=> run.game_id === game.id)
-    console.log(existingrun)
 
     if (existingrun?.date_completed) {
         return (
