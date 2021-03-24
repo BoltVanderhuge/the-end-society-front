@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../redux/userSlice';
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'
+import { setGame } from '../redux/gameSlice';
 
 function Header() {
     const history = useHistory()
@@ -12,34 +13,46 @@ function Header() {
         localStorage.removeItem("token");
         dispatch(setUser(false));
         history.push("/login")
+        dispatch(setGame(false))
       }
       function goToLogin(){
         history.push("/login")
       }
       function goToCollection(){
-        console.log("click")
           history.push("/collection")
+          dispatch(setGame(false))
       }
 
       function goToGameSearch(){
-        console.log("click")
         history.push("/centralcommand")
+        dispatch(setGame(false))
     }
+    function goToProfile(){
+      history.push("/profile")
+      dispatch(setGame(false))
+  }
 
     function goToRuns(){
-      console.log("click")
       history.push("/runs")
+      dispatch(setGame(false))
   }
+  function goToCalander(){
+    history.push("/calander")
+    dispatch(setGame(false))
+}
     const user = useSelector((state) => state.user);
     return (
         <ButtonContainer>
         <button onClick={goToCollection} value="run" >Run Collection</button>
         <button onClick={goToGameSearch} value="run" >Game Search</button>
         { user && 
-        <button value="profile">Profile</button>
+        <button onClick={goToProfile} value="profile">Profile</button>
         }
         { user && 
         <button onClick={goToRuns} value="myruns">My Runs</button>
+        }
+                { user && 
+        <button onClick={goToCalander} value="calander">Next Meeting</button>
         }
         <button onClick={user ? logout : goToLogin}>
           {user ? "Logout" : "Login" }

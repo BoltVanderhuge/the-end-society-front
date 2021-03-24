@@ -2,26 +2,44 @@ import React, {useState,useEffect} from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from '../redux/userSlice';
-import { editRuns } from '../redux/runsSlice';
+import { editRuns, deleteRuns } from '../redux/runsSlice';
+import { useHistory } from "react-router-dom";
 
 function RunContainer() {
     const runs = useSelector((state) => state.runs);
+    const history = useHistory();
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
     const [users,setUsers] = useState([])
     const [run,setRun] = useState([])
 
 
-    function handleClick(run){
-        setRun(run)
-    }
+    const dateTern = run.date_completed ? run.date_completed : ""
+    
+    // const [formData, setFormData] = useState({
+    //     date_completed: dateTern,
+    //     run_time: run.run_time,
+    //     achievements: run.achievements,
+    //     users: "",
+    // });
     const [formData, setFormData] = useState({
         date_completed: "",
-        run_time: "00:00:00:00",
+        run_time: "",
         achievements: "",
-        user: "",
-      });
-
+        users: "",
+    });
+    
+    function handleClick(run){
+        console.log("run",run)
+        setRun(run)
+        setFormData({
+            date_completed: dateTern,
+            run_time: run.run_time,
+            achievements: run.achievements,
+            users: "",
+        })
+    }
+    
       useEffect( () => {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
           .then( response => response.json() )
@@ -66,8 +84,15 @@ function RunContainer() {
     const userRuns = runs.filter((run)=>(
         run.users.find(user => user.id === currentUser.id )
     ))
-
     function handleSubmit(e){
+        console.log(formData)
+        const submitObj= {
+            date_completed: formData.date_completed,
+            run_time: formData.run_time,
+            achievements: formData.achievements,
+            users: [currentUser.id,parseInt(formData.users)],
+        }
+        console.log(submitObj)
         const token = localStorage.getItem("token");
         e.preventDefault();
         fetch(`${process.env.REACT_APP_BACKEND_URL}/runs/${run.id}`, {
@@ -76,21 +101,30 @@ function RunContainer() {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify( formData )
+            body: JSON.stringify( submitObj )
         })
             .then(response => response.json())
             .then(updatedRun => {
             dispatch(editRuns(updatedRun))
+            setFormData({
+                date_completed: "",
+                run_time: "00:00:00:00",
+                achievements: "",
+                users: "",
+            })
               
             })
+            console.log("inside submit",formData.achievements)
+            // history.push("/runs")
+            window.location.reload()
     }
 
     const runArray = userRuns.map((run)=>{
         return(
-            <li onClick={()=>handleClick(run)} key={run.id}>{run.name}</li>
+            <button onClick={()=>handleClick(run)} key={run.id}>{run.name}</button> 
         )
     })
-    const achievements = ["No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
+    const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
             <label key={i}>
@@ -104,14 +138,29 @@ function RunContainer() {
             </label>
         )
     })
-    console.log(run)
+
+    function handleDelete(e){
+        const token = localStorage.getItem("token");
+        
+        if (window.confirm('Are you sure you wish to delete this run?')){ 
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/runs/${run.id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            dispatch(deleteRuns(run))
+      history.push("/runs")
+      }
+      }
+
     if (run){
     return (
     <div>
         {runArray}
         <div>
             <br></br>
-            Run Info:
+            {run.name} Run Info:
             <br></br>
             Date Completed: {run.date_completed}
             <br></br>
@@ -122,7 +171,7 @@ function RunContainer() {
             {run.users ?
                 <>
             Players: {run.users.map((user)=> { return(
-                <li>{user.username}</li>)})}
+                <li key={user.id}>{user.username}</li>)})}
                 </>
                 : null
                 }
@@ -138,7 +187,7 @@ function RunContainer() {
             type="text" 
             required pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{2}" 
             value={formData.run_time} 
-            placeholder={run.run_time}
+            placeholder={formData.run_time}
             onChange={handleChange}></input>
         </label>
         <br></br>
@@ -149,6 +198,7 @@ function RunContainer() {
           step="1"
           name="date_completed"
           value={formData.date_completed}
+          placeholder={formData.date_completed}
           onChange={handleChange}
         />
         </label>
@@ -161,12 +211,15 @@ function RunContainer() {
           onChange={handleChange}
         >
         {userOptions}
-        <option value="0">None</option>
+        <option value="">No</option>
         </select>
         </label>
         <br></br>Achievements:<br></br>
         {achievementsForm}
+        <input type="submit" value="Update Run"></input>
         </form>
+
+        <button onClick={handleDelete}>☠ Delete this Run ☠</button>
         <div>
         <br></br>
         <br></br>

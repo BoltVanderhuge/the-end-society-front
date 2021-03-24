@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { addToRuns } from '../redux/runsSlice';
+import { setRun } from '../redux/runSlice';
 import { useHistory } from "react-router-dom";
 
 function RunInfo() {
@@ -17,6 +18,7 @@ function RunInfo() {
             game_id:game.id,
             name: game.name,
             users: [user.id]}
+            console.log(runobj)
         fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`, {
             method: "POST",
             headers: {
@@ -39,10 +41,14 @@ function RunInfo() {
     const runs = useSelector((state) => state.runs);
 
     const existingrun = runs.find(run=> run.game_id === game.id)
+    function handleRedirect(){
+        dispatch(setRun(existingrun));
+        history.push(`/collection`);
+    }
 
     if (existingrun?.date_completed) {
         return (
-            <button>
+            <button onClick={handleRedirect}>
                 This game was conquered by {user.username === existingrun.users[0].username? "You!" : existingrun.users[0].username} on {existingrun.date_completed}
             </button>
         )

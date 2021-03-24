@@ -1,22 +1,35 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { setRun } from '../redux/runSlice';
+import {Route,useHistory} from 'react-router-dom'
+
 
 function RunCollectionContainer() {
+    const [extraInfo,setExtraInfo] = useState([])
     const run = useSelector((state) => state.run);
+    console.log(run)
     const runs = useSelector((state) => state.runs);
     const dispatch = useDispatch();
+    const history = useHistory();
     const completedRuns = runs.filter((run)=>{
         if (run.date_completed){
             return (run)
         }
-    
     })
+
+    useEffect( () => {
+        fetch(`http://www.giantbomb.com/api/game/${run.game_id}/?api_key=${process.env.REACT_APP_API_KEY}&format=json`)
+        .then( response => response.json() )
+        .then(data => setExtraInfo(data.results));
+        
+    }, [])
+
     function handleClick(run){
         dispatch(setRun(run))
         fetch(`http://www.giantbomb.com/api/game/${run.game_id}/?api_key=${process.env.REACT_APP_API_KEY}&format=json`)
         .then( response => response.json() )
-        .then(data => console.log(data.results));
+        .then(data => setExtraInfo(data.results));
+            // history.push(`/collection/${run.id}`)
 
     }
     const listedRuns = completedRuns.map((run)=>{
@@ -28,19 +41,27 @@ function RunCollectionContainer() {
         <ul>
             {listedRuns}
         </ul>
+        {/* <Route path='/collection/:id'> */}
         {run ? 
         <>
         <div>
-            Date Beaten:
+            Game: <br></br> 
+            {run.name}<br></br>
+            Date Beaten:<br></br> 
             {run.date_completed}<br></br>
             Completed by: {run.users.map((run=>(
-                run.username
+                <li key={run.id}> {run.username}</li>
             )))}
-            
+            Duration:<br></br> 
+            {run.run_time}
         </div>
+        { extraInfo.image ?
+        <img src={extraInfo.image.medium_url}></img>
+        : null }
         </>
         :null
     }
+    {/* </Route> */}
         </div>
     )
 }

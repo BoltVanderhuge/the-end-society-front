@@ -11,6 +11,8 @@ import {Route} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser} from '../redux/userSlice';
 import { setRuns } from '../redux/runsSlice';
+import PollContainer from './PollContainer';
+import Poll from './Poll';
 
 function App() {
   const runs = useSelector((state) => state.runs);
@@ -56,6 +58,11 @@ function App() {
       <Route exact path = '/profile'>
         <Header />
           <ProfileContainer />
+      </Route>
+      <Route exact path = '/calander'>
+        <Header />
+          {/* <PollContainer /> */}
+          <Poll />
       </Route>
 
     </Container>
