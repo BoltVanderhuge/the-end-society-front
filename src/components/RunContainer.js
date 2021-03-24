@@ -2,10 +2,11 @@ import React, {useState,useEffect} from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from '../redux/userSlice';
-import { editRuns, deleteRuns } from '../redux/runsSlice';
+import { setRuns, deleteRuns } from '../redux/runsSlice';
 import { useHistory } from "react-router-dom";
 
 function RunContainer() {
+    const user = useSelector((state) => state.user);
     const token = localStorage.getItem("token");
     const stateruns = useSelector((state) => state.runs);
     const history = useHistory();
@@ -13,7 +14,7 @@ function RunContainer() {
     const currentUser = useSelector((state) => state.user);
     const [users,setUsers] = useState([])
     const [run,setRun] = useState([])
-    const [runs,setRuns] = useState([])
+    const [runs,setHereRuns] = useState([])
 
     useEffect( () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
@@ -26,7 +27,7 @@ function RunContainer() {
           },
         })
       .then( response => response.json() )
-      .then(data => setRuns(data));
+      .then(data => setHereRuns(data));
     
           
       }, [])
@@ -50,12 +51,12 @@ function RunContainer() {
     function handleClick(run) {
         const dateTern = run.date_completed ? run.date_completed : ""
         const userTern = run.users[1] ? run.users[1].id : ""
-        console.log("run", run)
+        const timeTern = run.run_time ? run.run_time : "00:00:00:00"
         setRun(run)
         checkCheevos(run)
         setFormData({
             date_completed: dateTern,
-            run_time: run.run_time,
+            run_time: timeTern,
             achievements: run.achievements,
             users: userTern,
         })
@@ -66,13 +67,6 @@ function RunContainer() {
         const boxes = document.getElementsByTagName('input');
         const cheevos = run.achievements.split(",")
         console.log(cheevos)
-    //    boxes.map((box)=>{
-    //         if (run.achievements.find(achievement => achievement === box.value) ) {
-    //             return (box.checked = true)
-    //         } else {
-    //             box.checked = false
-    //         }
-    //     })
     for (let i = 0; i < boxes.length; i++) {
         if (run.achievements.split(/[.:;?!~,`"&|()<>{}\[\]\r\n\\]+/).find(achievement => achievement === boxes[i].value)) {
             boxes[i].checked = true;
@@ -81,8 +75,9 @@ function RunContainer() {
       }
     }
     
-        
-        const userOptions = users.map((user)=>{
+        const notYou = users.filter((allUser) => allUser.id !== user.id)
+        console.log(notYou)
+        const userOptions = notYou.map((user)=>{
             return(
                 <option key={user.id} value={user.id}>{user.username}</option>
             )
@@ -115,18 +110,15 @@ function RunContainer() {
             [name]: checkedArr,
         });
     }
-    // const userRuns = runs.filter((run)=>(
-    //     run.users.find(user => user.id === currentUser.id )
-    // ))
+
         
     function handleSubmit(e){
-        console.log(formData.achievements)
         const submitObj= {
             date_completed: formData.date_completed,
             run_time: formData.run_time,
             achievements: formData.achievements,
             users: [currentUser.id,parseInt(formData.users)],
-        }
+        };
 
         const token = localStorage.getItem("token");
         e.preventDefault();
@@ -140,7 +132,6 @@ function RunContainer() {
         })
             .then(response => response.json())
             .then(updatedRun => {
-               
                 setRun(updatedRun)
                 const updatedRuns = runs.map((run) => {
                     if (run.id === updatedRun.id) {
@@ -148,16 +139,17 @@ function RunContainer() {
                     } else {
                       return run;
                     }
-                  });
-                  
-            setRuns(updatedRuns)
+                });     
+            setHereRuns(updatedRuns)
+            dispatch(setRuns(updatedRuns))
+            const dateTern = run.date_completed ? run.date_completed : ""
+            const userTern = run.users[1] ? run.users[1].id : ""
             setFormData({
-                date_completed: "",
-                run_time: "00:00:00:00",
-                achievements: "",
-                users: "",
+                date_completed: dateTern,
+                run_time: updatedRun.run_time,
+                achievements: updatedRun.achievements,
+                users: userTern,
             })
-              
             })
             history.push("/runs")
             // window.location.reload()
@@ -195,11 +187,21 @@ function RunContainer() {
                     Authorization: `Bearer ${token}`
                 }
             })
+            const updatedRuns = runs.filter(jeff => jeff.id !== run.id)
+            setHereRuns(updatedRuns)
+            setRun([])
             dispatch(deleteRuns(run))
+            const checkeds = document.getElementsByTagName('input');
+            for (let i = 0; i < checkeds.length; i++) {
+                if (checkeds[i].checked) {
+                    checkeds[i].checked = false;
+                }
+              }
+
       history.push("/runs")
       }
-      }
-
+    }
+console.log(run)
     if (run){
     return (
     <div>
@@ -216,8 +218,8 @@ function RunContainer() {
             <br></br>
             {run.users ?
                 <>
-            Players: {run.users.map((user)=> { return(
-                <li key={user.id}>{user.username}</li>)})}
+            Players: {run.users.map((userMap)=> { return(
+                <li key={userMap.id}>{user.id === userMap.id ? "You" : userMap.username}</li>)})}
                 </>
                 : null
                 }
