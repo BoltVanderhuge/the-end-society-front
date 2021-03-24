@@ -49,6 +49,7 @@ function RunContainer() {
     
     function handleClick(run) {
         const dateTern = run.date_completed ? run.date_completed : ""
+        const userTern = run.users[1] ? run.users[1].id : ""
         console.log("run", run)
         setRun(run)
         checkCheevos(run)
@@ -56,7 +57,7 @@ function RunContainer() {
             date_completed: dateTern,
             run_time: run.run_time,
             achievements: run.achievements,
-            users: "",
+            users: userTern,
         })
     }
 
