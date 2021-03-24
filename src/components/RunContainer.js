@@ -6,15 +6,32 @@ import { editRuns, deleteRuns } from '../redux/runsSlice';
 import { useHistory } from "react-router-dom";
 
 function RunContainer() {
-    const runs = useSelector((state) => state.runs);
+    const token = localStorage.getItem("token");
+    const stateruns = useSelector((state) => state.runs);
     const history = useHistory();
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
     const [users,setUsers] = useState([])
     const [run,setRun] = useState([])
+    const [runs,setRuns] = useState([])
 
-
-    const dateTern = run.date_completed ? run.date_completed : ""
+    useEffect( () => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
+        .then( response => response.json() )
+        .then(data => setUsers(data));
+    
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/userruns`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        })
+      .then( response => response.json() )
+      .then(data => setRuns(data));
+    
+          
+      }, [])
+    
+    
     
     // const [formData, setFormData] = useState({
     //     date_completed: dateTern,
@@ -22,16 +39,19 @@ function RunContainer() {
     //     achievements: run.achievements,
     //     users: "",
     // });
+    
     const [formData, setFormData] = useState({
         date_completed: "",
-        run_time: "",
+        run_time: "00:00:00:00",
         achievements: "",
         users: "",
     });
     
-    function handleClick(run){
-        console.log("run",run)
+    function handleClick(run) {
+        const dateTern = run.date_completed ? run.date_completed : ""
+        console.log("run", run)
         setRun(run)
+        checkCheevos(run)
         setFormData({
             date_completed: dateTern,
             run_time: run.run_time,
@@ -39,14 +59,27 @@ function RunContainer() {
             users: "",
         })
     }
-    
-      useEffect( () => {
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
-          .then( response => response.json() )
-          .then(data => setUsers(data));
 
-            
-        }, [])
+    
+    function checkCheevos(run){
+        const boxes = document.getElementsByTagName('input');
+        const cheevos = run.achievements.split(",")
+        console.log(cheevos)
+    //    boxes.map((box)=>{
+    //         if (run.achievements.find(achievement => achievement === box.value) ) {
+    //             return (box.checked = true)
+    //         } else {
+    //             box.checked = false
+    //         }
+    //     })
+    for (let i = 0; i < boxes.length; i++) {
+        if (run.achievements.split(/[.:;?!~,`"&|()<>{}\[\]\r\n\\]+/).find(achievement => achievement === boxes[i].value)) {
+            boxes[i].checked = true;
+        }
+        else{boxes[i].checked = false;}
+      }
+    }
+    
         
         const userOptions = users.map((user)=>{
             return(
@@ -81,18 +114,19 @@ function RunContainer() {
             [name]: checkedArr,
         });
     }
-    const userRuns = runs.filter((run)=>(
-        run.users.find(user => user.id === currentUser.id )
-    ))
+    // const userRuns = runs.filter((run)=>(
+    //     run.users.find(user => user.id === currentUser.id )
+    // ))
+        
     function handleSubmit(e){
-        console.log(formData)
+        console.log(formData.achievements)
         const submitObj= {
             date_completed: formData.date_completed,
             run_time: formData.run_time,
             achievements: formData.achievements,
             users: [currentUser.id,parseInt(formData.users)],
         }
-        console.log(submitObj)
+
         const token = localStorage.getItem("token");
         e.preventDefault();
         fetch(`${process.env.REACT_APP_BACKEND_URL}/runs/${run.id}`, {
@@ -105,7 +139,17 @@ function RunContainer() {
         })
             .then(response => response.json())
             .then(updatedRun => {
-            dispatch(editRuns(updatedRun))
+               
+                setRun(updatedRun)
+                const updatedRuns = runs.map((run) => {
+                    if (run.id === updatedRun.id) {
+                      return  updatedRun ;
+                    } else {
+                      return run;
+                    }
+                  });
+                  
+            setRuns(updatedRuns)
             setFormData({
                 date_completed: "",
                 run_time: "00:00:00:00",
@@ -114,17 +158,17 @@ function RunContainer() {
             })
               
             })
-            console.log("inside submit",formData.achievements)
-            // history.push("/runs")
-            window.location.reload()
+            history.push("/runs")
+            // window.location.reload()
     }
 
-    const runArray = userRuns.map((run)=>{
+    const runArray = runs.map((run)=>{
         return(
             <button onClick={()=>handleClick(run)} key={run.id}>{run.name}</button> 
         )
     })
     const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
+    console.log(formData.achievements)
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
             <label key={i}>
@@ -138,6 +182,7 @@ function RunContainer() {
             </label>
         )
     })
+
 
     function handleDelete(e){
         const token = localStorage.getItem("token");
