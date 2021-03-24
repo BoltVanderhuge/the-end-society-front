@@ -30,7 +30,6 @@ function MainContainer() {
     }, [sortBy,searchData])
     const [games, setGames] = useState([])
 
-    console.log(searchData)
         
         function handleClick(game){
             dispatch(setGame(game))
