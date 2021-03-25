@@ -16,7 +16,7 @@ function MainContainer() {
       const [searchData, setSearchData] = useState({
         query: ""
       });
-    
+    console.log(process.env.REACT_APP_API_KEY)
     useEffect( () => {
         // fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`)
         // .then( response => response.json() )

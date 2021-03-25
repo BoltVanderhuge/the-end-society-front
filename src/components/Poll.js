@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Poll.css";
 import { useSelector } from "react-redux";
 
-function StrawPoll() {
+function Poll() {
   const user = useSelector((state) => state.user);
   const [voteData, setVoteData] = useState();
   const [totalVotes, setTotalVotes] = useState(0);
@@ -94,4 +94,4 @@ const submitVote = (e) => {
   
 }
 
-export default StrawPoll;
+export default Poll;
