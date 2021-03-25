@@ -7,6 +7,7 @@ function StrawPoll() {
   const [voteData, setVoteData] = useState();
   const [totalVotes, setTotalVotes] = useState(0);
   const [voted, setVoted] = useState(false);
+  const token = localStorage.getItem("token");
 
   const url = "http://localhost:3000/polls";
   const meeting_number = 1
@@ -20,14 +21,27 @@ function StrawPoll() {
         sum += obj.votes;
       });
       setTotalVotes(sum);
-
       
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/userpoll`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+    .then( response => response.json() )
+    .then(data => {
+      console.log(data)
+      if(data.length > 0) {
+        setVoted(true)
+      } 
+    }
+      );
+
+
     });
 }, []);
 
-
+console.log(voted)
 const submitVote = (e) => {
-  const token = localStorage.getItem("token");
   if(voted === false) {
     const voteSelected = parseInt(e.target.dataset.id)-1;
     // const voteSelected = e.target.dataset.id;

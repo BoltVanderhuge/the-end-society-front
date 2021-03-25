@@ -11,7 +11,7 @@ import {Route} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser} from '../redux/userSlice';
 import { setRuns } from '../redux/runsSlice';
-import PollContainer from './PollContainer';
+
 import Poll from './Poll';
 
 function App() {
@@ -61,7 +61,6 @@ function App() {
       </Route>
       <Route exact path = '/calander'>
         <Header />
-          {/* <PollContainer /> */}
           <Poll />
       </Route>
 
