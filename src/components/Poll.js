@@ -1,53 +1,64 @@
 import React, { useState, useEffect } from "react";
 import "./Poll.css";
+import { useSelector } from "react-redux";
 
 function StrawPoll() {
-
+  const user = useSelector((state) => state.user);
   const [voteData, setVoteData] = useState();
   const [totalVotes, setTotalVotes] = useState(0);
   const [voted, setVoted] = useState(false);
 
-  const url = "http://localhost:5000/poll";
+  const url = "http://localhost:3000/polls";
+  const meeting_number = 1
   useEffect(() => {
-    // fetch(url)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-        const data = [
-            { "id": 0, "votes": 0, "option": "Option One" },
-            { "id": 1, "votes": 0, "option": "Option Two" },
-            { "id": 2, "votes": 0, "option": "Option Three" },
-            { "id": 3, "votes": 0, "option": "Option Four" }
-         ]
-        setVoteData(data);
-        let sum = 0;
-        data.forEach(function (obj) {
-          sum += obj.votes;
-        });
-        setTotalVotes(sum);
-    //   });
-  }, []);
+    fetch(`${url}/${meeting_number}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setVoteData(data);
+      let sum = 0;
+      data.forEach(function (obj) {
+        sum += obj.votes;
+      });
+      setTotalVotes(sum);
 
-  const submitVote = (e) => {
-    if(voted === false) {
-      const voteSelected = e.target.dataset.id;
-      const voteCurrent = voteData[voteSelected].votes;
-      voteData[voteSelected].votes = voteCurrent + 1;
-      setTotalVotes(totalVotes + 1);
-      setVoted(!voted);
-      const options = {
-        method: "POST",
-        body: JSON.stringify(voteData),
-        headers: { "Content-Type": "application/json" },
-      };
-      fetch(url, options)
-        .then((res) => res.json())
-        .then((res) => console.log(res));
-    }
-  };  
+      
+    });
+}, []);
+
+
+const submitVote = (e) => {
+  const token = localStorage.getItem("token");
+  if(voted === false) {
+    const voteSelected = parseInt(e.target.dataset.id)-1;
+    // const voteSelected = e.target.dataset.id;
+    console.log(e.target.dataset.id)
+    console.log(voteSelected)
+    console.log(voteData[voteSelected])
+    const voteCurrent = voteData[voteSelected].votes;
+    voteData[voteSelected].votes = voteCurrent + 1;
+    voteData[voteSelected].users = [user.id];
+    setTotalVotes(totalVotes + 1);
+    setVoted(!voted);
+    const id = voteData[voteSelected].id
+    const options = {
+      method: "PATCH",
+      body: JSON.stringify(voteData[voteSelected]),
+      headers: { "Content-Type": "application/json",
+      Authorization: `Bearer ${token}` },
+    };
+    fetch(`${url}/${id}`, options)
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+};   
 
   let pollOptions;
   if (voteData) {
-    pollOptions = voteData.map((item) => {
+    const orderedMap = voteData.sort(function (a, b) {
+      return a.id - b.id;
+    });
+
+    pollOptions = orderedMap.map((item) => {
       return (
         <li key={item.id}>
           <button onClick={submitVote} data-id={item.id}>
