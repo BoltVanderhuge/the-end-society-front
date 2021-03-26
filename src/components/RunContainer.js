@@ -66,7 +66,6 @@ function RunContainer() {
     function checkCheevos(run){
         const boxes = document.getElementsByTagName('input');
         const cheevos = run.achievements.split(",")
-        console.log(cheevos)
     for (let i = 0; i < boxes.length; i++) {
         if (run.achievements.split(/[.:;?!~,`"&|()<>{}\[\]\r\n\\]+/).find(achievement => achievement === boxes[i].value)) {
             boxes[i].checked = true;
@@ -95,7 +94,7 @@ function RunContainer() {
     function handleCheck(e){
         const checkedArr = [];
         const name = e.target.name;
-        let value = e.target.value
+    
         if (e.target.checked){
             const checkeds = document.getElementsByTagName('input');
       for (let i = 0; i < checkeds.length; i++) {
@@ -103,7 +102,7 @@ function RunContainer() {
           checkedArr.push(checkeds[i].value);
         }
       }
-      value = checkedArr;
+
         }
         setFormData({
             ...formData,
@@ -161,7 +160,7 @@ function RunContainer() {
         )
     })
     const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
-    console.log(formData.achievements)
+
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
             <label key={i}>
