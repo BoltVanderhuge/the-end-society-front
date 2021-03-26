@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser } from '../redux/userSlice';
 import { setRuns, deleteRuns } from '../redux/runsSlice';
 import { useHistory } from "react-router-dom";
+import ImageContainer from './ImageContainer';
 
 function RunContainer() {
     const user = useSelector((state) => state.user);
@@ -15,7 +16,21 @@ function RunContainer() {
     const [users,setUsers] = useState([])
     const [run,setRun] = useState([])
     const [runs,setHereRuns] = useState([])
+    const [uploadedFiles, setUploadedFiles] = useState([
+    ]);
 
+    function getImages(clickedRun) {
+        console.log(clickedRun.id)
+        fetch(`http://localhost:3000/runphotos/${clickedRun.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUploadedFiles(data);
+            console.log(data)
+        });
+    }
+
+
+console.log(runs)
     useEffect( () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
         .then( response => response.json() )
@@ -53,6 +68,7 @@ function RunContainer() {
         const userTern = run.users[1] ? run.users[1].id : ""
         const timeTern = run.run_time ? run.run_time : "00:00:00:00"
         setRun(run)
+        getImages(run)
         checkCheevos(run)
         setFormData({
             date_completed: dateTern,
@@ -75,7 +91,7 @@ function RunContainer() {
     }
     
         const notYou = users.filter((allUser) => allUser.id !== user.id)
-        console.log(notYou)
+        
         const userOptions = notYou.map((user)=>{
             return(
                 <option key={user.id} value={user.id}>{user.username}</option>
@@ -110,7 +126,7 @@ function RunContainer() {
         });
     }
 
-        
+        console.log(run.id)
     function handleSubmit(e){
         const submitObj= {
             date_completed: formData.date_completed,
@@ -200,7 +216,7 @@ function RunContainer() {
       history.push("/runs")
       }
     }
-console.log(run)
+
     if (run){
     return (
     <div>
@@ -223,9 +239,9 @@ console.log(run)
                 : null
                 }
         </div>
+        
         <form onSubmit={handleSubmit}>
             <h1>Edit your Run</h1>
-            <h2></h2>
             <label>
                 Run Time:
                 <br></br> Write a duration in the format hh:mm:ss:ms:
@@ -241,21 +257,21 @@ console.log(run)
         <label>
         Date Completed:
         <input
-          type="date"
-          step="1"
-          name="date_completed"
-          value={formData.date_completed}
-          placeholder={formData.date_completed}
-          onChange={handleChange}
+            type="date"
+            step="1"
+            name="date_completed"
+            value={formData.date_completed}
+            placeholder={formData.date_completed}
+            onChange={handleChange}
         />
         </label>
         <br></br>
         <label>
             Co-Op?:
         <select
-          name="users"
-          value={formData.users}
-          onChange={handleChange}
+            name="users"
+            value={formData.users}
+            onChange={handleChange}
         >
         {userOptions}
         <option value="">No</option>
@@ -270,21 +286,24 @@ console.log(run)
         <div>
         <br></br>
         <br></br>
-            Achivements:<br></br>
-Dress Up:   Dress as one of the characters in the game.<br></br>
-Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
-No Deaths:  Complete a run without dying / losing.<br></br>
-Boozin USA:	Start and finish a drink during your run.<br></br>
-Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
-Glitch:	Use a glitch during your game, superficial or useful.<br></br>
-Bronze:	Complete five games at our meetings.<br></br>
-Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
-It's So Bad:	Beat any game using the powerglove.<br></br>
-Commentator:	Described your run / the technical details of your game.<br></br>
-Opening Salvo:	Start this party off right.<br></br>
-Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
-Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
-        </div>
+        Achivements:<br></br>
+        Dress Up:   Dress as one of the characters in the game.<br></br>
+        Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
+        No Deaths:  Complete a run without dying / losing.<br></br>
+        Boozin USA:	Start and finish a drink during your run.<br></br>
+        Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
+        Glitch:	Use a glitch during your game, superficial or useful.<br></br>
+        Bronze:	Complete five games at our meetings.<br></br>
+        Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
+        It's So Bad:	Beat any game using the powerglove.<br></br>
+        Commentator:	Described your run / the technical details of your game.<br></br>
+        Opening Salvo:	Start this party off right.<br></br>
+        Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
+        Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
+    </div>
+
+    {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
+       
     </div>
     
     )

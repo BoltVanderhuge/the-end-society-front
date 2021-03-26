@@ -14,6 +14,7 @@ import { setRuns } from '../redux/runsSlice';
 import Poll from './Poll';
 import Calender from './Calender';
 
+
 function App() {
   const runs = useSelector((state) => state.runs);
   // const user = useSelector((state) => state.user);
@@ -60,7 +61,7 @@ function App() {
         <Header />
           <ProfileContainer />
       </Route>
-      <Route exact path = '/calander'>
+      <Route exact path = '/calender'>
         <Header />
           <Poll />
           <Calender />

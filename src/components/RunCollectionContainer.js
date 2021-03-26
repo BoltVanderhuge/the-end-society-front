@@ -2,12 +2,11 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { setRun } from '../redux/runSlice';
 import {Route,useHistory} from 'react-router-dom'
-
+import { Image } from "cloudinary-react";
 
 function RunCollectionContainer() {
     const [extraInfo,setExtraInfo] = useState([])
     const run = useSelector((state) => state.run);
-    console.log(run)
     const runs = useSelector((state) => state.runs);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -56,7 +55,15 @@ function RunCollectionContainer() {
             {run.run_time}
         </div>
         { extraInfo.image ?
-        <img src={extraInfo.image.medium_url}></img>
+        <img alt="Game Box Art" src={extraInfo.image.medium_url}></img>
+        : null }
+        { run.photos ? run.photos.map((aPhoto) => {return (<Image key={aPhoto.id}
+              cloudName={process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+              publicId={aPhoto.photo}
+              width="100"
+              crop="scale"
+            />)} )
+        
         : null }
         </>
         :null

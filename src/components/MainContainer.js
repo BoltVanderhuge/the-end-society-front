@@ -84,8 +84,6 @@ const Container = styled.div`
 const SearchBarContainer = styled.aside ` 
 grid-area: searchBar; `;
 
-const HeaderContainer = styled.section ` 
-grid-area: header; `;
 
 const GameSearchContainer = styled.section ` 
 grid-area: gameSearch; 

@@ -36,8 +36,8 @@ function Header() {
       history.push("/runs")
       dispatch(setGame(false))
   }
-  function goToCalander(){
-    history.push("/calander")
+  function goToCalender(){
+    history.push("/calender")
     dispatch(setGame(false))
 }
     const user = useSelector((state) => state.user);
@@ -52,7 +52,7 @@ function Header() {
         <button onClick={goToRuns} value="myruns">My Runs</button>
         }
                 { user && 
-        <button onClick={goToCalander} value="calander">Next Meeting</button>
+        <button onClick={goToCalender} value="calender">Next Meeting</button>
         }
         <button onClick={user ? logout : goToLogin}>
           {user ? "Logout" : "Login" }
