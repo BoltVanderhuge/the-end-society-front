@@ -45,8 +45,8 @@ function RunInfo() {
         dispatch(setRun(existingrun));
         history.push(`/collection`);
     }
-
-    if (existingrun?.date_completed) {
+    if (user ) {
+    if (existingrun?.date_completed ) {
         return (
             <button onClick={handleRedirect}>
                 This game was conquered by {user.username === existingrun.users[0].username? "You!" : existingrun.users[0].username} on {existingrun.date_completed}
@@ -69,7 +69,10 @@ function RunInfo() {
         } 
         else {
             return (null)
+        } } else {
+            return (null)
         }
+
     }
 
 export default RunInfo

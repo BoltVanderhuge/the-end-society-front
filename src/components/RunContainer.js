@@ -5,8 +5,15 @@ import { setUser } from '../redux/userSlice';
 import { setRuns, deleteRuns } from '../redux/runsSlice';
 import { useHistory } from "react-router-dom";
 import ImageContainer from './ImageContainer';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
+
 
 function RunContainer() {
+    const [cheevButton, setCheevButton] = useState(false)
     const user = useSelector((state) => state.user);
     const token = localStorage.getItem("token");
     const stateruns = useSelector((state) => state.runs);
@@ -172,22 +179,24 @@ console.log(runs)
 
     const runArray = runs.map((run)=>{
         return(
-            <button onClick={()=>handleClick(run)} key={run.id}>{run.name}</button> 
+            <Button variant="secondary" block onClick={()=>handleClick(run)} key={run.id}>{run.name}</Button> 
         )
     })
     const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
 
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
-            <label key={i}>
-            {achievement}
-            <input
-            type="checkbox"
-            name="achievements"
-            onChange={handleCheck}
-            value={achievement}
-            />
-            </label>
+            <Form.Group controlId="formBasicEmail">
+                <Form.Label key={i}>
+                    <Form.Check
+                        type="checkbox"
+                        name="achievements"
+                        onChange={handleCheck}
+                        value={achievement}
+                    />{' '}
+                    {achievement}{' '}
+                </Form.Label>
+            </Form.Group>
         )
     })
 
@@ -216,30 +225,39 @@ console.log(runs)
       history.push("/runs")
       }
     }
-
+    function handleCheevClick(){
+        setCheevButton(!cheevButton)
+    }
     if (run){
+       
     return (
-    <div>
-        {runArray}
-        <div>
-            <br></br>
-            {run.name} Run Info:
-            <br></br>
-            Date Completed: {run.date_completed}
-            <br></br>
-            Run Time: {run.run_time}
-            <br></br>
-            Achievements: {run.achievements}
-            <br></br>
-            {run.users ?
-                <>
-            Players: {run.users.map((userMap)=> { return(
-                <li key={userMap.id}>{user.id === userMap.id ? "You" : userMap.username}</li>)})}
-                </>
-                : null
-                }
-        </div>
+    <Container fluid>
         
+        <Row>
+        <Col xs={2}>
+            {runArray}
+                </Col>
+            <Col xs={4} >
+            <div>
+                <br></br>
+                {run.name} Run Info:
+                <br></br>
+                Date Completed: {run.date_completed}
+                <br></br>
+                Run Time: {run.run_time}
+                <br></br>
+                Achievements: {run.achievements}
+                <br></br>
+                {run.users ?
+                    <>
+                Players: {run.users.map((userMap)=> { return(
+                    <li key={userMap.id}>{user.id === userMap.id ? "You" : userMap.username}</li>)})}
+                    </>
+                    : null
+                }
+            </div>
+            </Col>
+        <Col >
         <form onSubmit={handleSubmit}>
             <h1>Edit your Run</h1>
             <label>
@@ -282,11 +300,13 @@ console.log(runs)
         <input type="submit" value="Update Run"></input>
         </form>
 
-        <button onClick={handleDelete}>☠ Delete this Run ☠</button>
+        <Button onClick={handleDelete}>☠ Delete this Run ☠</Button>
+        <br></br>
+        <br></br>
+        <Button onClick={handleCheevClick}>{cheevButton? "Hide Achivements" : "Show Achivements" }</Button>
+        {cheevButton? 
         <div>
         <br></br>
-        <br></br>
-        Achivements:<br></br>
         Dress Up:   Dress as one of the characters in the game.<br></br>
         Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
         No Deaths:  Complete a run without dying / losing.<br></br>
@@ -301,10 +321,11 @@ console.log(runs)
         Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
         Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
     </div>
-
+    : null}
     {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
-       
-    </div>
+       </Col>
+       </Row>
+    </ Container>
     
     )
             } else {
@@ -313,5 +334,3 @@ console.log(runs)
 }
 
 export default RunContainer
-const RunInfoContainer=styled.form`
-`

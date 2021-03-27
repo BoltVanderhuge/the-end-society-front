@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { setGame } from '../redux/gameSlice';
-import styled from 'styled-components';
+
 
 
 
