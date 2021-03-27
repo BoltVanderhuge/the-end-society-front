@@ -186,21 +186,19 @@ console.log(runs)
 
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
-            <Form.Group controlId="formBasicEmail">
-                <Form.Label key={i}>
-                    <Form.Check
-                        type="checkbox"
-                        name="achievements"
-                        onChange={handleCheck}
-                        value={achievement}
-                    />{' '}
-                    {achievement}{' '}
-                </Form.Label>
+            <Form.Group controlId="formAchievements">
+                <Form.Check key={i}
+                    type="checkbox"
+                    name="achievements"
+                    onChange={handleCheck}
+                    value={achievement}
+                    label={achievement}
+                />{' '}
             </Form.Group>
         )
     })
 
-
+console.log("formdata",formData)
     function handleDelete(e){
         const token = localStorage.getItem("token");
         
@@ -258,7 +256,7 @@ console.log(runs)
             </div>
             </Col>
         <Col >
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
             <h1>Edit your Run</h1>
             <label>
                 Run Time:
@@ -284,21 +282,19 @@ console.log(runs)
         />
         </label>
         <br></br>
-        <label>
-            Co-Op?:
-        <select
-            name="users"
-            value={formData.users}
-            onChange={handleChange}
-        >
-        {userOptions}
-        <option value="">No</option>
-        </select>
-        </label>
+
+        <Form.Group>
+            <Form.Label>Co-Op?:</Form.Label>
+            <Form.Control as="select" name="users" value={formData.users} onChange={handleChange} custom>
+                {userOptions}
+                <option value="">No</option>
+            </Form.Control>
+        </Form.Group>
+
         <br></br>Achievements:<br></br>
         {achievementsForm}
         <input type="submit" value="Update Run"></input>
-        </form>
+        </Form>
 
         <Button onClick={handleDelete}>☠ Delete this Run ☠</Button>
         <br></br>
