@@ -1,13 +1,14 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../redux/userSlice';
-import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'
 import { setGame } from '../redux/gameSlice';
+import { setRuns } from '../redux/runsSlice';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { setRun } from '../redux/runSlice';
 
 function Header() {
     const history = useHistory()
@@ -18,6 +19,7 @@ function Header() {
         dispatch(setUser(false));
         history.push("/login")
         dispatch(setGame(false))
+        dispatch(setRun(false))
       }
       function goToLogin(){
         history.push("/login")
@@ -25,24 +27,29 @@ function Header() {
       function goToCollection(){
           history.push("/collection")
           dispatch(setGame(false))
+          dispatch(setRun(false))
       }
 
       function goToGameSearch(){
         history.push("/centralcommand")
         dispatch(setGame(false))
+        dispatch(setRun(false))
     }
     function goToProfile(){
       history.push("/profile")
       dispatch(setGame(false))
+      dispatch(setRun(false))
   }
 
     function goToRuns(){
       history.push("/runs")
       dispatch(setGame(false))
+      dispatch(setRun(false))
   }
   function goToCalender(){
     history.push("/calender")
     dispatch(setGame(false))
+    dispatch(setRun(false))
 }
     const user = useSelector((state) => state.user);
     return (
@@ -70,4 +77,3 @@ function Header() {
 }
 
 export default Header
-const ButtonContainer = styled.nav``

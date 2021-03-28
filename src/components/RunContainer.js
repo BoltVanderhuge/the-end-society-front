@@ -1,7 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import styled from 'styled-components'
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from '../redux/userSlice';
 import { setRuns, deleteRuns } from '../redux/runsSlice';
 import { useHistory } from "react-router-dom";
 import ImageContainer from './ImageContainer';
@@ -16,7 +14,6 @@ function RunContainer() {
     const [cheevButton, setCheevButton] = useState(false)
     const user = useSelector((state) => state.user);
     const token = localStorage.getItem("token");
-    const stateruns = useSelector((state) => state.runs);
     const history = useHistory();
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
@@ -27,17 +24,14 @@ function RunContainer() {
     ]);
 
     function getImages(clickedRun) {
-        console.log(clickedRun.id)
         fetch(`http://localhost:3000/runphotos/${clickedRun.id}`)
         .then((response) => response.json())
         .then((data) => {
           setUploadedFiles(data);
-            console.log(data)
         });
     }
 
 
-console.log(runs)
     useEffect( () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
         .then( response => response.json() )
@@ -52,16 +46,8 @@ console.log(runs)
       .then(data => setHereRuns(data));
     
           
-      }, [])
+      }, [token])
     
-    
-    
-    // const [formData, setFormData] = useState({
-    //     date_completed: dateTern,
-    //     run_time: run.run_time,
-    //     achievements: run.achievements,
-    //     users: "",
-    // });
     
     const [formData, setFormData] = useState({
         date_completed: "",
@@ -88,7 +74,6 @@ console.log(runs)
     
     function checkCheevos(run){
         const boxes = document.getElementsByTagName('input');
-        const cheevos = run.achievements.split(",")
     for (let i = 0; i < boxes.length; i++) {
         if (run.achievements.split(/[.:;?!~,`"&|()<>{}\[\]\r\n\\]+/).find(achievement => achievement === boxes[i].value)) {
             boxes[i].checked = true;
@@ -133,7 +118,6 @@ console.log(runs)
         });
     }
 
-        console.log(run.id)
     function handleSubmit(e){
         const submitObj= {
             date_completed: formData.date_completed,
@@ -186,8 +170,8 @@ console.log(runs)
 
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
-            <Form.Group controlId="formAchievements">
-                <Form.Check key={i}
+            <Form.Group key={i} controlId="formAchievements">
+                <Form.Check 
                     type="checkbox"
                     name="achievements"
                     onChange={handleCheck}
@@ -198,7 +182,6 @@ console.log(runs)
         )
     })
 
-console.log("formdata",formData)
     function handleDelete(e){
         const token = localStorage.getItem("token");
         
@@ -234,8 +217,8 @@ console.log("formdata",formData)
         <Row>
         <Col xs={2}>
             {runArray}
-                </Col>
-            <Col xs={4} >
+        </Col>
+        <Col xs={3} >
             <div>
                 <br></br>
                 {run.name} Run Info:
@@ -254,72 +237,69 @@ console.log("formdata",formData)
                     : null
                 }
             </div>
+        </Col>
+            <Col>
+                <Form onSubmit={handleSubmit}>
+                    <h1>Edit your Run</h1>
+                    <Form.Label>Run Time (hh:mm:ss:ms)</Form.Label>
+                    <Form.Control 
+                        name="run_time" 
+                        type="text" 
+                        required pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{2}" 
+                        value={formData.run_time} 
+                        placeholder={formData.run_time}
+                        onChange={handleChange}>
+                    </Form.Control>
+                <br></br>
+                <Form.Label>Date Completed</Form.Label>
+                <Form.Control
+                    type="date"
+                    step="1"
+                    name="date_completed"
+                    value={formData.date_completed}
+                    placeholder={formData.date_completed}
+                    onChange={handleChange}
+                />
+                
+                <br></br>
+
+                <Form.Group>
+                    <Form.Label>Co-Op?</Form.Label>
+                    <Form.Control as="select" name="users" value={formData.users} onChange={handleChange} custom>
+                        {userOptions}
+                        <option value="">No</option>
+                    </Form.Control>
+                </Form.Group>
+
+                <br></br>Achievements:<br></br>
+                {achievementsForm}
+                <Button variant="primary" type="submit" > Submit</Button>
+                </Form>
+
+                <Button variant="danger" onClick={handleDelete}>☠ Delete this Run ☠</Button>
+                <br></br>
+                <br></br>
+                <Button onClick={handleCheevClick}>{cheevButton? "Hide Achivements" : "Show Achivements" }</Button>
+                {cheevButton? 
+                <div>
+                    <br></br>
+                    Dress Up:   Dress as one of the characters in the game.<br></br>
+                    Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
+                    No Deaths:  Complete a run without dying / losing.<br></br>
+                    Boozin USA:	Start and finish a drink during your run.<br></br>
+                    Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
+                    Glitch:	Use a glitch during your game, superficial or useful.<br></br>
+                    Bronze:	Complete five games at our meetings.<br></br>
+                    Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
+                    It's So Bad:	Beat any game using the powerglove.<br></br>
+                    Commentator:	Described your run / the technical details of your game.<br></br>
+                    Opening Salvo:	Start this party off right.<br></br>
+                    Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
+                    Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
+                </div>
+                : null}
+                {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
             </Col>
-        <Col >
-        <Form onSubmit={handleSubmit}>
-            <h1>Edit your Run</h1>
-            <label>
-                Run Time:
-                <br></br> Write a duration in the format hh:mm:ss:ms:
-            <input 
-            name="run_time" 
-            type="text" 
-            required pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{2}" 
-            value={formData.run_time} 
-            placeholder={formData.run_time}
-            onChange={handleChange}></input>
-        </label>
-        <br></br>
-        <label>
-        Date Completed:
-        <input
-            type="date"
-            step="1"
-            name="date_completed"
-            value={formData.date_completed}
-            placeholder={formData.date_completed}
-            onChange={handleChange}
-        />
-        </label>
-        <br></br>
-
-        <Form.Group>
-            <Form.Label>Co-Op?:</Form.Label>
-            <Form.Control as="select" name="users" value={formData.users} onChange={handleChange} custom>
-                {userOptions}
-                <option value="">No</option>
-            </Form.Control>
-        </Form.Group>
-
-        <br></br>Achievements:<br></br>
-        {achievementsForm}
-        <input type="submit" value="Update Run"></input>
-        </Form>
-
-        <Button onClick={handleDelete}>☠ Delete this Run ☠</Button>
-        <br></br>
-        <br></br>
-        <Button onClick={handleCheevClick}>{cheevButton? "Hide Achivements" : "Show Achivements" }</Button>
-        {cheevButton? 
-        <div>
-        <br></br>
-        Dress Up:   Dress as one of the characters in the game.<br></br>
-        Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
-        No Deaths:  Complete a run without dying / losing.<br></br>
-        Boozin USA:	Start and finish a drink during your run.<br></br>
-        Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
-        Glitch:	Use a glitch during your game, superficial or useful.<br></br>
-        Bronze:	Complete five games at our meetings.<br></br>
-        Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
-        It's So Bad:	Beat any game using the powerglove.<br></br>
-        Commentator:	Described your run / the technical details of your game.<br></br>
-        Opening Salvo:	Start this party off right.<br></br>
-        Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
-        Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
-    </div>
-    : null}
-    {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
-       </Col>
        </Row>
     </ Container>
     

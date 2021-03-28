@@ -8,7 +8,7 @@ import RunContainer from './RunContainer'
 import ProfileContainer from './ProfileContainer'
 import RunCollectionContainer from './RunCollectionContainer'
 import {Route} from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser} from '../redux/userSlice';
 import { setRuns } from '../redux/runsSlice';
 import Poll from './Poll';
@@ -16,8 +16,6 @@ import Calender from './Calender';
 
 
 function App() {
-  const runs = useSelector((state) => state.runs);
-  // const user = useSelector((state) => state.user);
   const token = localStorage.getItem("token");
   
   const dispatch = useDispatch();

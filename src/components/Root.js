@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
 import useSound from 'use-sound';
 import door from './sounds/door.wav'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 function Root() {

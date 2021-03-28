@@ -21,21 +21,14 @@ function MainContainer() {
       const [searchData, setSearchData] = useState({
         query: ""
       });
-    console.log(process.env.REACT_APP_API_KEY)
     useEffect( () => {
-        // fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`)
-        // .then( response => response.json() )
-        // .then(data => dispatch(setRuns(data)));
         
         fetch(`http://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,deck,image,description,expected_release_year&limit=20`)
           .then( response => response.json() )
           .then(data => setGames(data.results));
-        // .then(data=>console.log(data))
         
     }, [sortBy,searchData])
     const [games, setGames] = useState([])
-
-        // console.log(game)
     function handleClick(game){
             dispatch(setGame(game))
 

@@ -1,19 +1,8 @@
-import React, {useState} from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react'
 
 
 function SearchBar({sortBy,setSortBy,setSearchData,searchData}) {
-    const dispatch = useDispatch();
-
-    // const [sortBy, setSortBy] = useState({
-    //     system:"9|6|21"
-    //   })
-    //   const [searchData, setSearchData] = useState({
-    //     query: false
-    //   });
-    //   console.log(searchData)
-    //   console.log(sortBy)
-
+   
       function handleChange(event) {
         const name = event.target.name;
         let value = event.target.value;

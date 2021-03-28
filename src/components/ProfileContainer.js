@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../redux/userSlice';
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button';
 
 function ProfileContainer() {
     const user = useSelector((state) => state.user);
@@ -56,70 +57,38 @@ function ProfileContainer() {
       });
     }
 
-    return (
-        <div>
-                      {/* <TextContainer> */}
+  return (
+    <div>
 
-{/* <Header> */}
-  <h1>Account Settings </h1>
-{/* </Header> */}
+    <h1>Account Settings </h1>
 
-<Form onSubmit={handleFormSubmit} autoComplete="off">
-  <label htmlFor="email"> E-Mail </label>
-  <input id="email" type="text" name="email" onChange={handleFormChange} value={formData.email} placeholder="E-Mail" required />
- 
-  <label htmlFor="current_password"> Current Password </label>
-  <input id="current_password" type="password" name="current_password" onChange={handleFormChange} checked={formData.currentPassword} placeholder="Current Password" required />
 
-  <label htmlFor="new_password"> New Password </label>
-  <input id="new_password" type="password" name="new_password" onChange={handleFormChange} checked={formData.newPassword} placeholder="New Password" />
+      <Form onSubmit={handleFormSubmit} autoComplete="off">
+      <Form.Group controlId="formBasicEmail">
+      <Form.Label > E-Mail </Form.Label>
+      <Form.Control  type="text" name="email" onChange={handleFormChange} value={formData.email} placeholder="E-Mail" required />
+      </Form.Group>
+      <Form.Group controlId="formBasicPassword">
+      <Form.Label > Current Password </Form.Label>
+      <Form.Control  type="password" name="current_password" onChange={handleFormChange} checked={formData.currentPassword} placeholder="Current Password" required />
+      </Form.Group>
+      <Form.Group controlId="formBasicPassword">
+      <Form.Label > New Password </Form.Label>
+      <Form.Control  type="password" name="new_password" onChange={handleFormChange} checked={formData.newPassword} placeholder="New Password" />
+      </Form.Group>
+      <Button variant="dark" type="submit">
+        Submit
+      </Button>
+      {errors && errors.map((error) => (
+          <p key={error} style={{ color: "red" }}>
+            {error}
+          </p>
+        ))}
+    </Form>
 
-<button type="submit"> Submit </button>
-</Form>
 
-{/* </TextContainer> */}
-        </div>
+  </div>
     )
 }
 
 export default ProfileContainer
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  padding: 70px;
-  padding-top: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-
-  input {
-    border-radius: 6px;
-    width: 175px;
-    height: 20px;
-    margin-bottom: 5px;
-    text-align: center;
-    padding-bottom: 4px;
-    padding-top: 4px;
-    font-size: 1.1rem;
-  }
-
-  button{
-    border-radius: 8px;
-    background: black;
-    color: white;
-    border: 1px solid var(--yellow);
-    outline: none;
-    cursor: pointer;
-    margin-top: 40px;
-    padding: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 1.3rem;
-
-    :hover {
-      background: black;
-      color: red;
-    }
-  }
-`
