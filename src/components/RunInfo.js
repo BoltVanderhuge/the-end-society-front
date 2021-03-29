@@ -4,6 +4,7 @@ import { addToRuns } from '../redux/runsSlice';
 import { setRun } from '../redux/runSlice';
 import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
+import styled from 'styled-components'
 
 function RunInfo() {
 
@@ -44,9 +45,9 @@ function RunInfo() {
     if (user ) {
     if (existingrun?.date_completed ) {
         return (
-            <Button variant="dark" onClick={handleRedirect}>
+            <StyledButton className="justify-content-md-center" variant="dark" onClick={handleRedirect}>
                 This game was conquered by {user.username === existingrun.users[0].username? "You!" : existingrun.users[0].username} on {existingrun.date_completed}
-            </Button>
+            </StyledButton>
         )
         } else if (user.username === existingrun?.users[0].username) {
             return (
@@ -60,7 +61,7 @@ function RunInfo() {
                 }
         else if (game) {
         return (
-            <Button variant="warning" onClick={handleClick}>Claim this game</Button>
+            <StyledButton variant="warning" onClick={handleClick}>Claim this game</StyledButton>
             )
         } 
         else {
@@ -73,3 +74,8 @@ function RunInfo() {
 
 export default RunInfo
 
+const StyledButton = styled(Button)`
+position: fixed;
+  top: 45px;
+  right: 0;
+`

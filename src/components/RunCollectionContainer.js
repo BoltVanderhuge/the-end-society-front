@@ -37,7 +37,7 @@ function RunCollectionContainer() {
         fetch(`http://www.giantbomb.com/api/game/${run.game_id}/?api_key=${process.env.REACT_APP_API_KEY}&format=json`)
         .then( response => response.json() )
         .then(data => setExtraInfo(data.results));
-
+        console.log(extraInfo)
     }
     const listedRuns = completedRuns.map((run)=>{
         return(<Button variant="secondary" block onClick={()=>handleClick(run)} key={run.id}>{run.name}</Button>)
@@ -50,12 +50,12 @@ function RunCollectionContainer() {
                         {listedRuns}
                     </ul>
                 </Col>
-                <Col>
+                <Col className="h-100">
                 {run ? 
-                    <Carousel fade>
+                    <Carousel>
                     { extraInfo.image ?
                         <Carousel.Item>
-                            <img alt="Game Box Art" src={extraInfo.image.medium_url}></img>
+                            <img className="d-block h-100 mx-auto" alt="Game Box Art" src={extraInfo.image.medium_url}></img>
                         </Carousel.Item>
                         : null }
                         { run.photos ? run.photos.map((aPhoto) => {return (
@@ -63,8 +63,10 @@ function RunCollectionContainer() {
                                 <Image
                                     cloudName={process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
                                     publicId={aPhoto.photo}
+                                    className="d-block w-100 mx-auto"
                                     // width="100"
-                                    crop="scale"/>
+                                    crop="scale"
+                                    />
                             </Carousel.Item> )} )
                         : null }
                     </Carousel> : null}

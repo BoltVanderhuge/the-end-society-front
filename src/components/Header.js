@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../redux/userSlice';
 import {useHistory} from 'react-router-dom'
 import { setGame } from '../redux/gameSlice';
-import { setRuns } from '../redux/runsSlice';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -54,7 +53,7 @@ function Header() {
     const user = useSelector((state) => state.user);
     return (
         <Container fluid>
-          <Row>
+          <Row className="justify-content-md-center">
             <Col xs={6}>
               <Button variant="dark" onClick={goToCollection} value="run" >Run Collection</Button> {' '}
               <Button variant="dark" onClick={goToGameSearch} value="run" >Game Search</Button> {' '}
@@ -73,6 +72,7 @@ function Header() {
             </Col>
           </Row>
         </Container>
+
     )
 }
 

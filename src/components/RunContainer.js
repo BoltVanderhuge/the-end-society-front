@@ -273,11 +273,10 @@ function RunContainer() {
 
                 <br></br>Achievements:<br></br>
                 {achievementsForm}
-                <Button variant="primary" type="submit" > Submit</Button>
+                <Button variant="primary" type="submit" > Submit</Button> {' '}
+                <Button variant="danger" onClick={handleDelete}>☠ Delete this Run ☠</Button>
                 </Form>
 
-                <Button variant="danger" onClick={handleDelete}>☠ Delete this Run ☠</Button>
-                <br></br>
                 <br></br>
                 <Button onClick={handleCheevClick}>{cheevButton? "Hide Achivements" : "Show Achivements" }</Button>
                 {cheevButton? 

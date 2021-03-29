@@ -23,11 +23,11 @@ function SearchBar({sortBy,setSortBy,setSearchData,searchData}) {
       }
     return (
         <div>
-            <input onChange={handleChange} name="query" type="text"></input><br></br>
-            <input onChange={handleSortChange}  type="radio" name="system"  value="21"/>
-            <label htmlFor="nes">NES</label><br></br>
+            <input onChange={handleChange} name="query" type="text"></input> <br></br>
+            <input onChange={handleSortChange}  type="radio" name="system"  value="21"/> 
+            <label htmlFor="nes">NES</label> {' '} {' '} {' '}
             <input onChange={handleSortChange}  type="radio" name="system"  value="9"/>
-            <label htmlFor="snes">SNES</label><br></br>
+            <label htmlFor="snes">SNES</label> {' '}
             <input onChange={handleSortChange}  type="radio" name="system"  value="6"/>
             <label htmlFor="Genesis">Genesis</label>
         </div>

@@ -6,6 +6,8 @@ import {  useSelector } from "react-redux";
 
 function SelectedGameInfo() {
     const game = useSelector((state) => state.game);
+
+    console.log(game)
     if (game.description){
     return (
         < div dangerouslySetInnerHTML={{__html:game.description}}>
