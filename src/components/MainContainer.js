@@ -6,11 +6,11 @@ import SelectedGameInfo from './SelectedGameInfo'
 import RunInfo from './RunInfo'
 import { setGame } from '../redux/gameSlice';
 import { useDispatch } from "react-redux";
-
 import Media from 'react-bootstrap/Media';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+
 
 function MainContainer() {
 
@@ -56,9 +56,9 @@ function MainContainer() {
     ));
 
     return (
-        <Container fluid>
+        <Container class="main" fluid>
             <Row>
-                <Col xs={3}>
+                <Col class="left" xs={3}>
                     <SearchBarContainer>
                         <SearchBar sortBy={sortBy} setSortBy={setSortBy} setSearchData={setSearchData} searchData={searchData} />
                     </SearchBarContainer>
@@ -89,7 +89,11 @@ const SearchBarContainer = styled.div `
 
 
 const GameSearchContainer = styled.div ` 
-
+overflow-y: scroll;
+float: left;
+width:  422px;
+height: 798px;
+object-fit: cover;
 `;
 
 const SelectedGameInfoContainer = styled.div ` 
@@ -97,3 +101,4 @@ const SelectedGameInfoContainer = styled.div `
 
 const RunInfoContainer = styled.div ` 
  `;
+

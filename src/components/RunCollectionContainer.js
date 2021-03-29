@@ -59,7 +59,7 @@ function RunCollectionContainer() {
                         </Carousel.Item>
                         : null }
                         { run.photos ? run.photos.map((aPhoto) => {return (
-                            <Carousel.Item>
+                            <Carousel.Item key={run.id}>
                                 <Image
                                     cloudName={process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
                                     publicId={aPhoto.photo}

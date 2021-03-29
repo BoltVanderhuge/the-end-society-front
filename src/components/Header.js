@@ -58,14 +58,14 @@ function Header() {
               <Button variant="dark" onClick={goToCollection} value="run" >Run Collection</Button> {' '}
               <Button variant="dark" onClick={goToGameSearch} value="run" >Game Search</Button> {' '}
               { user && 
-              <Button variant="dark" onClick={goToProfile} value="profile">Profile</Button> 
-              } {' '}
-              { user && 
               <Button variant="dark" onClick={goToRuns} value="myruns">My Runs</Button> 
-              } {' '}
+            } {' '}
                       { user && 
               <Button variant="dark" onClick={goToCalender} value="calender">Next Meeting</Button> 
-              } {' '}
+            } {' '}
+            { user && 
+            <Button variant="dark" onClick={goToProfile} value="profile">Profile</Button> 
+            } {' '}
               <Button variant="dark" onClick={user ? logout : goToLogin}>
                 {user ? "Logout" : "Login" }
               </Button>

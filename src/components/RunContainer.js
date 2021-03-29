@@ -214,34 +214,38 @@ function RunContainer() {
     return (
     <Container fluid>
         
+        <Form onSubmit={handleSubmit}>
         <Row>
         <Col xs={2}>
             {runArray}
         </Col>
-        <Col xs={3} >
-            <div>
-                <br></br>
-                {run.name} Run Info:
-                <br></br>
-                Date Completed: {run.date_completed}
-                <br></br>
-                Run Time: {run.run_time}
-                <br></br>
-                Achievements: {run.achievements}
-                <br></br>
-                {run.users ?
-                    <>
-                Players: {run.users.map((userMap)=> { return(
-                    <li key={userMap.id}>{user.id === userMap.id ? "You" : userMap.username}</li>)})}
-                    </>
-                    : null
-                }
-            </div>
-        </Col>
-            <Col>
-                <Form onSubmit={handleSubmit}>
-                    <h1>Edit your Run</h1>
-                    <Form.Label>Run Time (hh:mm:ss:ms)</Form.Label>
+            <Col xs={2}>
+                {achievementsForm}
+
+            <Button variant="secondary" onClick={handleCheevClick}>{cheevButton? "Hide Achievements" : "Show Achievements" }</Button>
+                {cheevButton? 
+                <div>
+                    <br></br>
+                    
+                    Dress Up:   Dress as one of the characters in the game.<br></br>
+                    Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
+                    No Deaths:  Complete a run without dying / losing.<br></br>
+                    Boozin USA:	Start and finish a drink during your run.<br></br>
+                    Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
+                    Glitch:	Use a glitch during your game, superficial or useful.<br></br>
+                    Bronze:	Complete five games at our meetings.<br></br>
+                    Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
+                    It's So Bad:	Beat any game using the powerglove.<br></br>
+                    Commentator:	Described your run / the technical details of your game.<br></br>
+                    Opening Salvo:	Start this party off right.<br></br>
+                    Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
+                    Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
+                </div>
+                : null}
+                
+            </Col>
+            <Col xs={3}>
+            <Form.Label>Run Time (hh:mm:ss:ms)</Form.Label>
                     <Form.Control 
                         name="run_time" 
                         type="text" 
@@ -270,36 +274,16 @@ function RunContainer() {
                         <option value="">No</option>
                     </Form.Control>
                 </Form.Group>
+                {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
 
-                <br></br>Achievements:<br></br>
-                {achievementsForm}
-                <Button variant="secondary" type="submit" > Submit</Button> {' '}
-                <Button variant="danger" onClick={handleDelete}>☠ Delete this Run ☠</Button>
-                </Form>
 
                 <br></br>
-                <Button variant="secondary" onClick={handleCheevClick}>{cheevButton? "Hide Achivements" : "Show Achivements" }</Button>
-                {cheevButton? 
-                <div>
-                    <br></br>
-                    Dress Up:   Dress as one of the characters in the game.<br></br>
-                    Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
-                    No Deaths:  Complete a run without dying / losing.<br></br>
-                    Boozin USA:	Start and finish a drink during your run.<br></br>
-                    Real Hardware / Cart:	Complete the game using all original hardware (no powerpak).<br></br>
-                    Glitch:	Use a glitch during your game, superficial or useful.<br></br>
-                    Bronze:	Complete five games at our meetings.<br></br>
-                    Movie Themed Game:	There's never been a good video game movie but there's been good movie video games.<br></br>
-                    It's So Bad:	Beat any game using the powerglove.<br></br>
-                    Commentator:	Described your run / the technical details of your game.<br></br>
-                    Opening Salvo:	Start this party off right.<br></br>
-                    Pete's Revenge:	Come back and destroy a previously lost game.<br></br>
-                    Bimmy & Jimmy:	Finish a game, co-op style.<br></br>
-                </div>
-                : null}
-                {run.users?  <ImageContainer uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} run={run} user={user} /> : null}
+                <Button variant="secondary" type="submit" > Submit</Button> {' '}
+                <Button variant="danger" onClick={handleDelete}>☠ Delete this Run ☠</Button>
+            
             </Col>
        </Row>
+            </Form>
     </ Container>
     
     )
