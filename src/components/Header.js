@@ -53,7 +53,7 @@ function Header() {
     const user = useSelector((state) => state.user);
     return (
         <Container fluid>
-          <Row className="justify-content-md-center">
+          <Row className="pb-3 pt-3" >
             <Col xs={6}>
               <Button variant="dark" onClick={goToCollection} value="run" >Run Collection</Button> {' '}
               <Button variant="dark" onClick={goToGameSearch} value="run" >Game Search</Button> {' '}

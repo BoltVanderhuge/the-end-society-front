@@ -78,7 +78,7 @@ function ProfileContainer() {
         <Form.Label > New Password </Form.Label>
         <Form.Control  type="password" name="new_password" onChange={handleFormChange} checked={formData.newPassword} placeholder="New Password" />
         </Form.Group>
-        <Button variant="dark" type="submit">
+        <Button block variant="secondary" type="submit">
           Submit
         </Button>
         {errors && errors.map((error) => (
