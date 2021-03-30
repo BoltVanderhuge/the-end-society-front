@@ -4,6 +4,10 @@ import { setUser } from '../redux/userSlice';
 import { useHistory } from "react-router-dom";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 function LoginForm() {
     const history = useHistory();
@@ -59,37 +63,48 @@ function LoginForm() {
       }
 
     return (
-        <Form onSubmit={handleLoginSubmit} autoComplete="off">
-        <h1>Login</h1>
-        <Form.Control
-          type="text"
-          name="username"
-          onChange={handleChange}
-          value={formData.username}
-          placeholder="Username"
-          required
-          xs="auto"
-        />
-        <Form.Control
-          type="password"
-          name="password"
-          onChange={handleChange}
-          checked={formData.password}
-          placeholder="Password"
-          required
-          xs="auto"
-        />
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+    <Container fluid>
+      <Row>
+        <Col xs={4} className="mx-auto text-center mt-3">
+          <img
+              src="https://res.cloudinary.com/dngxsavth/image/upload/v1616100330/shrine_nice_zuu1b4.png"
+              alt="Shrine"
+              width="100%"
+          />
           <br></br>
-        <Button variant="dark" onClick={handleGuest}>Continue as Guest</Button>
-        {errors && errors.map((error) => (
-          <p key={error} style={{ color: "red" }}>
-            {error}
-          </p>
-        ))}
-  </Form>
+          <br></br>
+
+          <Form onSubmit={handleLoginSubmit} autoComplete="off">
+            <Form.Control
+              type="text"
+              name="username"
+              onChange={handleChange}
+              value={formData.username}
+              placeholder="Username"
+              required
+              xs="auto"
+            />
+            <Form.Control
+              type="password"
+              name="password"
+              onChange={handleChange}
+              checked={formData.password}
+              placeholder="Password"
+              required
+              xs="auto"
+            />
+            <br></br>
+            <Button variant="secondary" type="submit" block>Login</Button>{' '}  
+            <Button variant="secondary" onClick={handleGuest} block>Continue as Guest</Button>
+            {errors && errors.map((error) => (
+              <p key={error} style={{ color: "red" }}>
+                {error}
+              </p>
+            ))}
+          </Form>
+        </Col>
+      </Row>
+    </Container>
     )
 }
 

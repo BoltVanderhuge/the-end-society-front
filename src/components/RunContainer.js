@@ -55,7 +55,8 @@ function RunContainer() {
         achievements: "",
         users: "",
     });
-    
+    console.log(formData)
+    console.log(run)
     function handleClick(run) {
         const dateTern = run.date_completed ? run.date_completed : ""
         const userTern = run.users[1] ? run.users[1].id : ""
@@ -148,8 +149,8 @@ function RunContainer() {
                 });     
             setHereRuns(updatedRuns)
             dispatch(setRuns(updatedRuns))
-            const dateTern = run.date_completed ? run.date_completed : ""
-            const userTern = run.users[1] ? run.users[1].id : ""
+            const dateTern = updatedRun.date_completed ? updatedRun.date_completed : ""
+            const userTern = updatedRun.users[1] ? updatedRun.users[1].id : ""
             setFormData({
                 date_completed: dateTern,
                 run_time: updatedRun.run_time,
@@ -166,7 +167,7 @@ function RunContainer() {
             <Button variant="secondary" block onClick={()=>handleClick(run)} key={run.id}>{run.name}</Button> 
         )
     })
-    const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy"]
+    const achievements = ["Dress Up","No Deaths","Boozin USA","Real Hardware / Cart","Glitch","Bronze","Movie Themed Game","It's So Bad","Commentator","Opening Salvo","Pete's Revenge","Bimmy and Jimmy", "Harder Difficulty"]
 
     const achievementsForm = achievements.map((achievement, i)=>{
         return(
@@ -226,7 +227,6 @@ function RunContainer() {
                 {cheevButton? 
                 <div>
                     <br></br>
-                    
                     Dress Up:   Dress as one of the characters in the game.<br></br>
                     Harder Difficulty:  Change the options so the game is more difficult - this includes reducing the amount of lives/continues or choosing a harder difficulty if it's available.<br></br>
                     No Deaths:  Complete a run without dying / losing.<br></br>

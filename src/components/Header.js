@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { setRun } from '../redux/runSlice';
+import styled from 'styled-components'
 
 function Header() {
     const history = useHistory()
@@ -55,6 +56,7 @@ function Header() {
         <Container fluid>
           <Row className="pb-3 pt-3" >
             <Col xs={6}>
+              <StyledImage src="https://res.cloudinary.com/dngxsavth/image/upload/v1617135533/Torch_Gif_ggvnru.gif" alt="Torch"></StyledImage>
               <Button variant="dark" onClick={goToCollection} value="run" >Run Collection</Button> {' '}
               <Button variant="dark" onClick={goToGameSearch} value="run" >Game Search</Button> {' '}
               { user && 
@@ -69,6 +71,7 @@ function Header() {
               <Button variant="dark" onClick={user ? logout : goToLogin}>
                 {user ? "Logout" : "Login" }
               </Button>
+              <StyledImage src="https://res.cloudinary.com/dngxsavth/image/upload/v1617135533/Torch_Gif_ggvnru.gif" alt="Torch"></StyledImage>
             </Col>
           </Row>
         </Container>
@@ -77,3 +80,7 @@ function Header() {
 }
 
 export default Header
+const StyledImage = styled.img ` 
+    width:  32px;
+    height: 32px;
+`;

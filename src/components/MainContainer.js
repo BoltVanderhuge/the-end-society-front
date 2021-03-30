@@ -56,9 +56,9 @@ function MainContainer() {
     ));
 
     return (
-        <Container class="main" fluid>
+        <Container className="main" fluid>
             <Row>
-                <Col class="left" xs={3}>
+                <Col className="left" xs={3}>
                     <SearchBarContainer>
                         <SearchBar sortBy={sortBy} setSortBy={setSortBy} setSearchData={setSearchData} searchData={searchData} />
                     </SearchBarContainer>
@@ -66,7 +66,7 @@ function MainContainer() {
                         <GameSearch gameArray = {gameArray} />
                     </GameSearchContainer>
                 </Col>
-                <Col>
+                <Col xs={5}>
                     <RunInfoContainer>
                         <RunInfo />
                     </RunInfoContainer>
@@ -90,8 +90,6 @@ const SearchBarContainer = styled.div `
 
 const GameSearchContainer = styled.div ` 
 overflow-y: scroll;
-float: left;
-width:  422px;
 height: 798px;
 object-fit: cover;
 `;

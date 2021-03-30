@@ -13,6 +13,7 @@ import { setUser} from '../redux/userSlice';
 import { setRuns } from '../redux/runsSlice';
 import Poll from './Poll';
 import Calender from './Calender';
+import RunCollectionGame from './RunCollectionGame'
 
 
 function App() {
@@ -63,6 +64,10 @@ function App() {
         <Header />
           <Poll />
           <Calender />
+      </Route>
+      <Route exact path = '/run'>
+        <Header />
+        <RunCollectionGame />
       </Route>
 
     </Container>

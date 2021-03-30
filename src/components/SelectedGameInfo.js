@@ -15,9 +15,7 @@ function SelectedGameInfo() {
         <div>
             <StyledImage src={game.image.small_url} alt={game.name}></StyledImage>
             {/* {game.expected_release_year} <br></br>{game.deck} */}
-            <span>
-            {game.expected_release_year} <br></br>{game.deck}
-            </span>
+            <br></br>{game.expected_release_year} <br></br>{game.deck}
         </div>
         
     )} else {
@@ -28,7 +26,6 @@ function SelectedGameInfo() {
 
 export default SelectedGameInfo
 const StyledImage = styled.img ` 
-    float: left;
     width:  422px;
     height: 588px;
     object-fit: cover;

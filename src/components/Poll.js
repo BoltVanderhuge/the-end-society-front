@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Poll.css";
 import { useSelector } from "react-redux";
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 function Poll() {
   const user = useSelector((state) => state.user);
@@ -79,11 +82,15 @@ const submitVote = (e) => {
   }  
 
   return (
-    <div className="poll">
-      <h1>What day works for the next meeting?</h1>
-      <ul className={voted ? "results" : "options"}>{pollOptions}</ul>
-      <p>Total Votes: {totalVotes}</p>
-    </div>
+    <Container fluid className="poll">
+      <Row>
+        <Col xs={5} className="mx-auto text-center">
+          <h1>What day works for the next meeting?</h1>
+          <ul className={voted ? "results" : "options"}>{pollOptions}</ul>
+          <p>Total Votes: {totalVotes}</p>
+        </Col>
+      </Row>
+    </Container>
   );
   
 }

@@ -77,5 +77,5 @@ export default RunInfo
 const StyledButton = styled(Button)`
 position: fixed;
   top: 45px;
-  right: 0;
+  right: 544px;
 `
