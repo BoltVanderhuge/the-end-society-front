@@ -34,7 +34,7 @@ function MainContainer() {
 
     }
     const gameArray = games.map((game) => (
-        <Media onClick={()=>handleClick(game)} key={game.id} as="li">
+        <Media className="m-2 auto" onClick={()=>handleClick(game)} key={game.id} as="li">
             <img
                 width={64}
                 height={64}

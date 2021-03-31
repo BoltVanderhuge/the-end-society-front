@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import styled from 'styled-components'
 
 function LoginForm() {
     const history = useHistory();
@@ -73,8 +73,8 @@ function LoginForm() {
           />
           <br></br>
           <br></br>
-
-          <Form onSubmit={handleLoginSubmit} autoComplete="off">
+          
+          <StyledForm onSubmit={handleLoginSubmit} autoComplete="off">
             <Form.Control
               type="text"
               name="username"
@@ -101,7 +101,7 @@ function LoginForm() {
                 {error}
               </p>
             ))}
-          </Form>
+          </StyledForm>
         </Col>
       </Row>
     </Container>
@@ -109,3 +109,9 @@ function LoginForm() {
 }
 
 export default LoginForm
+
+const StyledForm = styled(Form)`
+padding: 0% 20% 
+
+
+`
