@@ -197,6 +197,13 @@ function RunContainer() {
             setHereRuns(updatedRuns)
             setRun([])
             dispatch(deleteRuns(run))
+
+            setFormData({
+                date_completed: "",
+                run_time: "",
+                achievements: "",
+                users: "",
+            })
             const checkeds = document.getElementsByTagName('input');
             for (let i = 0; i < checkeds.length; i++) {
                 if (checkeds[i].checked) {
