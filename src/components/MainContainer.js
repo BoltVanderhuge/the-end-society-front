@@ -7,6 +7,11 @@ import RunInfo from './RunInfo'
 import { setGame } from '../redux/gameSlice';
 import { useDispatch } from "react-redux";
 
+import Media from 'react-bootstrap/Media';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 function MainContainer() {
 
     const dispatch = useDispatch();
@@ -22,7 +27,7 @@ function MainContainer() {
         // .then( response => response.json() )
         // .then(data => dispatch(setRuns(data)));
         
-        fetch(`http://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,image,description&limit=20`)
+        fetch(`http://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,deck,image,description,expected_release_year&limit=20`)
           .then( response => response.json() )
           .then(data => setGames(data.results));
         // .then(data=>console.log(data))
@@ -30,70 +35,72 @@ function MainContainer() {
     }, [sortBy,searchData])
     const [games, setGames] = useState([])
 
-        
-        function handleClick(game){
+        // console.log(game)
+    function handleClick(game){
             dispatch(setGame(game))
 
-        }
-        const gameArray = games.map((game) => (
-                
-            <li onClick={()=>handleClick(game)} key={game.id} >
-                <img src={game.image.icon_url} alt={game.name}>
-                </img>
-                {game.name}
-            </li>
-          ));
+    }
+    const gameArray = games.map((game) => (
+        <Media onClick={()=>handleClick(game)} key={game.id} as="li">
+            <img
+                width={64}
+                height={64}
+                className="align-self-center mr-3"
+                src={game.image.icon_url}
+                alt={game.name}
+            />
+            
+            <Media.Body>
+                <h5>{game.name}</h5>
+            </Media.Body>
+        </Media>
+                    
+            // <li onClick={()=>handleClick(game)} key={game.id} >
+            //     <img src={game.image.icon_url} alt={game.name}>
+            //     </img>
+            //     {game.name}
+            // </li>
+    ));
 
     return (
-        <Container>
-            <SearchBarContainer>
-                <SearchBar sortBy={sortBy} setSortBy={setSortBy} setSearchData={setSearchData} searchData={searchData} />
-            </SearchBarContainer>
-            <GameSearchContainer>
-                <GameSearch gameArray = {gameArray} />
-            </GameSearchContainer>
-            <SelectedGameInfoContainer>
-                <SelectedGameInfo />
-            </SelectedGameInfoContainer>
-            <RunInfoContainer>
-                <RunInfo />
-            </RunInfoContainer>
+        <Container fluid>
+            <Row>
+                <Col xs={3}>
+                    <SearchBarContainer>
+                        <SearchBar sortBy={sortBy} setSortBy={setSortBy} setSearchData={setSearchData} searchData={searchData} />
+                    </SearchBarContainer>
+                    <GameSearchContainer>
+                        <GameSearch gameArray = {gameArray} />
+                    </GameSearchContainer>
+                </Col>
+                <Col>
+                    <RunInfoContainer>
+                        <RunInfo />
+                    </RunInfoContainer>
+                    <SelectedGameInfoContainer>
+                        <SelectedGameInfo />
+                    </SelectedGameInfoContainer>
+                </Col>
+            </Row>
         </Container>
     )
 }
 
 export default MainContainer;
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  /* grid-template-columns: 50px 50px 50px 50px; */
-  grid-template-rows: 0.4fr 1.6fr 1fr;
-  grid-template-rows: min-content max-content max-content;
-  /* grid-template-rows: auto auto auto; */
-  justify-content: left;
-  text-align: left;
-  overflow: hidden;
-  gap: 5px 5px;
-  grid-template-areas:
-    "header header header header"
-    "searchBar gameSearch gameSearch gameSearch"
-    "searchBar selectedGameInfo selectedGameInfo runInfo";
+// const Container = styled.div`
 
-`
-const SearchBarContainer = styled.aside ` 
-grid-area: searchBar; `;
+// `
+const SearchBarContainer = styled.div ` 
+ `;
 
 
-const GameSearchContainer = styled.section ` 
-grid-area: gameSearch; 
-min-height:4em;
-overflow-y:auto;
-max-height:100%;
+const GameSearchContainer = styled.div ` 
+
 `;
 
-const SelectedGameInfoContainer = styled.section ` 
-grid-area: selectedGameInfo; `;
+const SelectedGameInfoContainer = styled.div ` 
+`;
 
-const RunInfoContainer = styled.section ` 
-grid-area: runInfo; `;
+const RunInfoContainer = styled.div ` 
+ `;

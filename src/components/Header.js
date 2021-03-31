@@ -4,6 +4,10 @@ import { setUser } from '../redux/userSlice';
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'
 import { setGame } from '../redux/gameSlice';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function Header() {
     const history = useHistory()
@@ -42,52 +46,28 @@ function Header() {
 }
     const user = useSelector((state) => state.user);
     return (
-        <ButtonContainer>
-        <button onClick={goToCollection} value="run" >Run Collection</button>
-        <button onClick={goToGameSearch} value="run" >Game Search</button>
-        { user && 
-        <button onClick={goToProfile} value="profile">Profile</button>
-        }
-        { user && 
-        <button onClick={goToRuns} value="myruns">My Runs</button>
-        }
-                { user && 
-        <button onClick={goToCalender} value="calender">Next Meeting</button>
-        }
-        <button onClick={user ? logout : goToLogin}>
-          {user ? "Logout" : "Login" }
-        </button>
-        </ButtonContainer>
+        <Container fluid>
+          <Row>
+            <Col xs={6}>
+              <Button variant="dark" onClick={goToCollection} value="run" >Run Collection</Button> {' '}
+              <Button variant="dark" onClick={goToGameSearch} value="run" >Game Search</Button> {' '}
+              { user && 
+              <Button variant="dark" onClick={goToProfile} value="profile">Profile</Button> 
+              } {' '}
+              { user && 
+              <Button variant="dark" onClick={goToRuns} value="myruns">My Runs</Button> 
+              } {' '}
+                      { user && 
+              <Button variant="dark" onClick={goToCalender} value="calender">Next Meeting</Button> 
+              } {' '}
+              <Button variant="dark" onClick={user ? logout : goToLogin}>
+                {user ? "Logout" : "Login" }
+              </Button>
+            </Col>
+          </Row>
+        </Container>
     )
 }
 
 export default Header
-const ButtonContainer = styled.nav`
-  height: 100px;
-  padding-right: 10px;
-  padding-left: 10px;
-  margin-right: 75px;
-  display: flex;
-  align-items: center;
-  
-  button {
-    border: 1px solid var(--yellow);
-    text-align: center;
-    padding-top: 8px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 8px;
-    font-size: 18px;
-    border-radius: 8px;
-    background: var(--md-green);
-    color: var(--yellow);
-    margin-left: 20px;
-    outline: none;
-    :hover{
-      background: var(--yellow);
-      color: var(--md-green);
-      border: 1px solid var(--md-green);
-    } 
-
-  }
-`
+const ButtonContainer = styled.nav``

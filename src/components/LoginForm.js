@@ -55,6 +55,9 @@ function LoginForm() {
           });
       }
 
+      function handleGuest(){
+        history.push("/centralcommand")
+      }
 
     return (
         <Form onSubmit={handleLoginSubmit} autoComplete="off">
@@ -76,7 +79,7 @@ function LoginForm() {
           required
         />
         <button type="submit">Submit</button>
-        
+        <button onClick={handleGuest}>Continue as Guest</button>
         {errors && errors.map((error) => (
           <p key={error} style={{ color: "red" }}>
             {error}

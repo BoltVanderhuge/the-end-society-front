@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Image } from "cloudinary-react";
 import styles from "../styles/Image.module.css";
-
+import Button from 'react-bootstrap/Button';
 
 export default function ImageContainer({run, user,uploadedFiles, setUploadedFiles}) {
     const userRef = useRef();
@@ -83,13 +83,13 @@ console.log(uploadedFiles)
         className={`${styles.dropzone} ${isDragActive ? styles.active : null}`}
       >
         <input {...getInputProps()} />
-        Image Alter
+        Image Altar
       </div>
 
       <ul>
         {uploadedFiles.map((file) => (
           <li key={file.id}>
-            <button onClick={()=>handleClick(file)}>Delete this Image</button>
+            <Button onClick={()=>handleClick(file)}>Delete this Image</Button>
             <Image
               cloudName={process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
               publicId={file.photo}
