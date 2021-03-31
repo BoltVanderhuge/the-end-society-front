@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Poll.css";
 import { useSelector } from "react-redux";
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 function Poll() {
   const user = useSelector((state) => state.user);
@@ -29,7 +33,6 @@ function Poll() {
       })
     .then( response => response.json() )
     .then(data => {
-      console.log(data)
       if(data.length > 0) {
         setVoted(true)
       } 
@@ -38,16 +41,11 @@ function Poll() {
 
 
     });
-}, []);
+}, [token]);
 
-console.log(voted)
 const submitVote = (e) => {
   if(voted === false) {
     const voteSelected = parseInt(e.target.dataset.id)-1;
-    // const voteSelected = e.target.dataset.id;
-    console.log(e.target.dataset.id)
-    console.log(voteSelected)
-    console.log(voteData[voteSelected])
     const voteCurrent = voteData[voteSelected].votes;
     voteData[voteSelected].votes = voteCurrent + 1;
     voteData[voteSelected].users = [user.id];
@@ -62,7 +60,6 @@ const submitVote = (e) => {
     };
     fetch(`${url}/${id}`, options)
       .then((res) => res.json())
-      .then((res) => console.log(res));
   }
 };   
 
@@ -75,21 +72,25 @@ const submitVote = (e) => {
     pollOptions = orderedMap.map((item) => {
       return (
         <li key={item.id}>
-          <button onClick={submitVote} data-id={item.id}>
+          <Button variant="dark" onClick={submitVote} data-id={item.id}>
             {item.option}
             <span>- {item.votes} Votes</span>
-          </button>          
+          </Button>          
         </li>
       );
     });
   }  
 
   return (
-    <div className="poll">
-      <h1>What day works for the next meeting?</h1>
-      <ul className={voted ? "results" : "options"}>{pollOptions}</ul>
-      <p>Total Votes: {totalVotes}</p>
-    </div>
+    <Container fluid className="poll">
+      <Row>
+        <Col xs={5} className="mx-auto text-center">
+          <h1>What day works for the next meeting?</h1>
+          <ul className={voted ? "results" : "options"}>{pollOptions}</ul>
+          <p>Total Votes: {totalVotes}</p>
+        </Col>
+      </Row>
+    </Container>
   );
   
 }

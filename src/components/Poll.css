@@ -8,7 +8,7 @@
 }
 .poll ul li {
   list-style: none;
-  border: 2px solid #00ddf9;
+  border: 2px solid #e0a800;
   border-radius: 3px;
   line-height: 1rem;
   margin-bottom: 1rem;
@@ -19,7 +19,7 @@
   background: transparent;
   outline: none;
   /* color: #fff; */
-  color: #1f486b;
+  color: #bcc9d4;
   height: 100%;
   width: 100%;
   display: block;

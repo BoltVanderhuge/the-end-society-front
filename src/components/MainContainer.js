@@ -6,11 +6,11 @@ import SelectedGameInfo from './SelectedGameInfo'
 import RunInfo from './RunInfo'
 import { setGame } from '../redux/gameSlice';
 import { useDispatch } from "react-redux";
-
 import Media from 'react-bootstrap/Media';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+
 
 function MainContainer() {
 
@@ -21,27 +21,20 @@ function MainContainer() {
       const [searchData, setSearchData] = useState({
         query: ""
       });
-    console.log(process.env.REACT_APP_API_KEY)
     useEffect( () => {
-        // fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`)
-        // .then( response => response.json() )
-        // .then(data => dispatch(setRuns(data)));
         
         fetch(`http://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,deck,image,description,expected_release_year&limit=20`)
           .then( response => response.json() )
           .then(data => setGames(data.results));
-        // .then(data=>console.log(data))
         
     }, [sortBy,searchData])
     const [games, setGames] = useState([])
-
-        // console.log(game)
     function handleClick(game){
             dispatch(setGame(game))
 
     }
     const gameArray = games.map((game) => (
-        <Media onClick={()=>handleClick(game)} key={game.id} as="li">
+        <Media className="m-2 auto" onClick={()=>handleClick(game)} key={game.id} as="li">
             <img
                 width={64}
                 height={64}
@@ -63,9 +56,9 @@ function MainContainer() {
     ));
 
     return (
-        <Container fluid>
+        <Container className="main" fluid>
             <Row>
-                <Col xs={3}>
+                <Col className="left" xs={3}>
                     <SearchBarContainer>
                         <SearchBar sortBy={sortBy} setSortBy={setSortBy} setSearchData={setSearchData} searchData={searchData} />
                     </SearchBarContainer>
@@ -73,7 +66,7 @@ function MainContainer() {
                         <GameSearch gameArray = {gameArray} />
                     </GameSearchContainer>
                 </Col>
-                <Col>
+                <Col xs={5}>
                     <RunInfoContainer>
                         <RunInfo />
                     </RunInfoContainer>
@@ -96,7 +89,9 @@ const SearchBarContainer = styled.div `
 
 
 const GameSearchContainer = styled.div ` 
-
+overflow-y: scroll;
+height: 798px;
+object-fit: cover;
 `;
 
 const SelectedGameInfoContainer = styled.div ` 
@@ -104,3 +99,4 @@ const SelectedGameInfoContainer = styled.div `
 
 const RunInfoContainer = styled.div ` 
  `;
+

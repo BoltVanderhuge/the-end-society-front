@@ -3,22 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToRuns } from '../redux/runsSlice';
 import { setRun } from '../redux/runSlice';
 import { useHistory } from "react-router-dom";
+import Button from 'react-bootstrap/Button'
+import styled from 'styled-components'
 
 function RunInfo() {
 
     const user = useSelector((state) => state.user);
-    const token = localStorage.getItem("token");
     const dispatch = useDispatch();
 
     const history = useHistory();
     function handleClick() {
-        console.log(game)
-        console.log(user.id)
         const runobj = {
             game_id:game.id,
             name: game.name,
             users: [user.id]}
-            console.log(runobj)
         fetch(`${process.env.REACT_APP_BACKEND_URL}/runs`, {
             method: "POST",
             headers: {
@@ -29,7 +27,6 @@ function RunInfo() {
           .then(r => r.json() )
           .then(newRun => {
             // dispatch(setRun(newRun));
-            console.log(newRun)
             dispatch(addToRuns(newRun));
             // dispatch(setUser(user => {
             //   return {...user, runs: [...user.runs, newRun]} 
@@ -48,9 +45,9 @@ function RunInfo() {
     if (user ) {
     if (existingrun?.date_completed ) {
         return (
-            <button onClick={handleRedirect}>
+            <StyledButton className="justify-content-md-center" variant="dark" onClick={handleRedirect}>
                 This game was conquered by {user.username === existingrun.users[0].username? "You!" : existingrun.users[0].username} on {existingrun.date_completed}
-            </button>
+            </StyledButton>
         )
         } else if (user.username === existingrun?.users[0].username) {
             return (
@@ -64,7 +61,7 @@ function RunInfo() {
                 }
         else if (game) {
         return (
-            <button onClick={handleClick}>Claim this game</button>
+            <StyledButton variant="warning" onClick={handleClick}>Claim this game</StyledButton>
             )
         } 
         else {
@@ -77,18 +74,8 @@ function RunInfo() {
 
 export default RunInfo
 
-// if (existingrun?.date_completed) {
-//     return (
-//         <button>
-//             This game was conquered by {user.username === existingrun.users[0].username? "You !" : existingrun.users[0].username} on {existingrun.date_completed}
-//         </button>
-//     )
-//     } 
-//     // else if(existingrun){
-//     //     return (
-//     //     <div>{user.username === existingrun.users[0].username? "You've already claimed this game" : "This game has been claimed"}</div> )}
-//     else {
-//         return (
-//             <button onClick={handleClick}>Claim this game</button>
-//         )
-//     }
+const StyledButton = styled(Button)`
+position: fixed;
+  top: 45px;
+  right: 544px;
+`

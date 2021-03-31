@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { Image } from "cloudinary-react";
 import styles from "../styles/Image.module.css";
@@ -7,13 +7,10 @@ import Button from 'react-bootstrap/Button';
 export default function ImageContainer({run, user,uploadedFiles, setUploadedFiles}) {
     const userRef = useRef();
     const runRef = useRef();
-    // const [uploadedFiles, setUploadedFiles] = useState([
-    // ]);
 
     userRef.current = user;
     runRef.current = run;
 
-console.log(uploadedFiles)
   const onDrop = useCallback((acceptedFiles) => {
       const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
       
@@ -32,12 +29,12 @@ console.log(uploadedFiles)
                 .then( response => response.json() )
                 .then(data => {
 
-                    console.log(data)
+                    
                     const photoObj = {
                         user_id: userRef.current.id,
                         run_id: runRef.current.id,
                         photo: data.public_id}
-                        console.log(photoObj)
+                        
                         fetch(`${process.env.REACT_APP_BACKEND_URL}/photos`, {
                             method: "POST",
                             headers: {
@@ -47,7 +44,6 @@ console.log(uploadedFiles)
                         })
                         .then(r => r.json() )
                         .then(newPhoto => {
-                            console.log(newPhoto)
                             setUploadedFiles((old) => [...old, newPhoto]);
                     }) })
                 
@@ -56,7 +52,6 @@ console.log(uploadedFiles)
 
   function handleClick(file){
     const token = localStorage.getItem("token");
-    console.log("click")
     if (window.confirm('Are you sure you wish to delete this image?')){ 
       
       fetch(`${process.env.REACT_APP_BACKEND_URL}/photos/${file.id}`, {
@@ -89,7 +84,7 @@ console.log(uploadedFiles)
       <ul>
         {uploadedFiles.map((file) => (
           <li key={file.id}>
-            <Button onClick={()=>handleClick(file)}>Delete this Image</Button>
+            <Button variant="dark" onClick={()=>handleClick(file)}>Delete this Image</Button>
             <Image
               cloudName={process.env.REACT_APP_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
               publicId={file.photo}

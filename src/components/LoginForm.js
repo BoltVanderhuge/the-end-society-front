@@ -1,11 +1,15 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from '../redux/userSlice';
 import { useHistory } from "react-router-dom";
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import styled from 'styled-components'
 
 function LoginForm() {
-    const user = useSelector((state) => state.user);
     const history = useHistory();
 
     const dispatch = useDispatch();
@@ -46,7 +50,6 @@ function LoginForm() {
           })
           .then((data) => {
             dispatch(setUser(data.user))
-            console.log(user)
             localStorage.setItem("token", data.token);
             history.push("/centralcommand");
           })
@@ -60,67 +63,55 @@ function LoginForm() {
       }
 
     return (
-        <Form onSubmit={handleLoginSubmit} autoComplete="off">
-        <h1>Login</h1>
-        <input
-          type="text"
-          name="username"
-          onChange={handleChange}
-          value={formData.username}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          onChange={handleChange}
-          checked={formData.password}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Submit</button>
-        <button onClick={handleGuest}>Continue as Guest</button>
-        {errors && errors.map((error) => (
-          <p key={error} style={{ color: "red" }}>
-            {error}
-          </p>
-        ))}
-  </Form>
+    <Container fluid>
+      <Row>
+        <Col xs={4} className="mx-auto text-center mt-3">
+          <img
+              src="https://res.cloudinary.com/dngxsavth/image/upload/v1616100330/shrine_nice_zuu1b4.png"
+              alt="Shrine"
+              width="100%"
+          />
+          <br></br>
+          <br></br>
+          
+          <StyledForm onSubmit={handleLoginSubmit} autoComplete="off">
+            <Form.Control
+              type="text"
+              name="username"
+              onChange={handleChange}
+              value={formData.username}
+              placeholder="Username"
+              required
+              xs="auto"
+            />
+            <Form.Control
+              type="password"
+              name="password"
+              onChange={handleChange}
+              checked={formData.password}
+              placeholder="Password"
+              required
+              xs="auto"
+            />
+            <br></br>
+            <Button variant="secondary" type="submit" block>Login</Button>{' '}  
+            <Button variant="secondary" onClick={handleGuest} block>Continue as Guest</Button>
+            {errors && errors.map((error) => (
+              <p key={error} style={{ color: "red" }}>
+                {error}
+              </p>
+            ))}
+          </StyledForm>
+        </Col>
+      </Row>
+    </Container>
     )
 }
 
 export default LoginForm
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(43, 43, 43, 60%);
-  color: white;
-  padding: 70px;
+const StyledForm = styled(Form)`
+padding: 0% 20% 
 
-  box-shadow: 0 1px 3px rgb(0 0 0 / 30%), 0 1px 2px rgb(0 0 0 / 50%);
 
-  h1 {
-    margin-top: 0;
-  }
-  input {
-    border-radius: 6px;
-    width: 175px;
-    height: 20px;
-    margin-bottom: 5px;
-    text-align: center;
-    padding-bottom: 4px;
-    padding-top: 4px;
-  }
-
-  button{
-    :last-of-type{
-      margin-top: 40px;
-      padding: 2px;
-      padding-left: 10px;
-      padding-right: 10px;
-      font-size: 1.3rem;
-    }
-  }
 `
