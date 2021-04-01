@@ -95,10 +95,10 @@ const Carta = styled.div `
 width:500px;margin:auto;width:500px;overflow:hidden;font-family: 'Press Start 2P', cursive;
  `;
  const Header = styled.header ` 
- background-image:url('http://fotos.subefotos.com/e0139226fb6eb14f6009f4e87fa2f8c3o.png');height:124px;margin-bottom:40px;
+ background-image:url('https://fotos.subefotos.com/e0139226fb6eb14f6009f4e87fa2f8c3o.png');height:124px;margin-bottom:40px;
   `;
   const Section = styled.section ` 
-  background-image:url('http://fotos.subefotos.com/cc42099b19996d043583e8a4377e8aaeo.png');background-repeat:repeat-y;min-height:50px;margin-top:-40px;padding-bottom:40px;
+  background-image:url('https://fotos.subefotos.com/cc42099b19996d043583e8a4377e8aaeo.png');background-repeat:repeat-y;min-height:50px;margin-top:-40px;padding-bottom:40px;
    `;
 
 const Mensaje = styled.div ` 
@@ -110,7 +110,7 @@ text-align:right;color:#6f0d0d;font-size:15px;padding-left:79px;margin-bottom:0p
  `;
 
 const Footer = styled.footer ` 
-background-image:url('http://fotos.subefotos.com/57f6ea113ab8b27188c4f496543efb4fo.png'); margin-top: -20px; color: rgb(62, 45, 45); text-align: right; padding: 53px 59px 0px 0px; height: 46px; font-size: 13px;
+background-image:url('https://fotos.subefotos.com/57f6ea113ab8b27188c4f496543efb4fo.png'); margin-top: -20px; color: rgb(62, 45, 45); text-align: right; padding: 53px 59px 0px 0px; height: 46px; font-size: 13px;
  `;
 
 const StyledButton = styled(Button)`

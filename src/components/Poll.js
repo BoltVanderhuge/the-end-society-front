@@ -13,7 +13,7 @@ function Poll() {
   const [voted, setVoted] = useState(false);
   const token = localStorage.getItem("token");
 
-  const url = "http://localhost:3000/polls";
+  const url = `${process.env.REACT_APP_BACKEND_URL}/polls`;
   const meeting_number = 1
   useEffect(() => {
     fetch(`${url}/${meeting_number}`)

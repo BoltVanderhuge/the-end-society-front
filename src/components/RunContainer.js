@@ -24,7 +24,7 @@ function RunContainer() {
     ]);
 
     function getImages(clickedRun) {
-        fetch(`http://localhost:3000/runphotos/${clickedRun.id}`)
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/runphotos/${clickedRun.id}`)
         .then((response) => response.json())
         .then((data) => {
           setUploadedFiles(data);

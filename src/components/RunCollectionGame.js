@@ -16,7 +16,7 @@ function RunCollectionGame() {
     console.log(run)
     useEffect( () => {
         let isSubscribed = true
-        fetch(`http://www.giantbomb.com/api/game/${run.game_id}/?api_key=${process.env.REACT_APP_API_KEY}&format=json`)
+        fetch(`https://www.giantbomb.com/api/game/${run.game_id}/?api_key=${process.env.REACT_APP_API_KEY}&format=json`)
         .then( response => response.json() )
         .then(data => {
             if (isSubscribed) {

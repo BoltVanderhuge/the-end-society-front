@@ -23,7 +23,7 @@ function MainContainer() {
       });
     useEffect( () => {
         
-        fetch(`http://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,deck,image,description,expected_release_year&limit=20`)
+        fetch(`https://www.giantbomb.com/api/games/?api_key=${process.env.REACT_APP_API_KEY}&format=json&filter=platforms:${sortBy.system},name:${searchData.query}&field_list=name,id,deck,image,description,expected_release_year&limit=20`)
           .then( response => response.json() )
           .then(data => setGames(data.results));
         
