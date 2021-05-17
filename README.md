@@ -1,70 +1,16 @@
-# Getting Started with Create React App
+Front End
+Welcome to The End Society.It started as a whim to beat the MegaMans that were on the NES 5 friends some of which were decidedly not video game players drew straws for which game they got. They practiced for a month then got together to beat them all in one day. This grew into The End Society a monthly video game appreciation/attempt at speed running, party that we did in 2014. The initial goal was to collectively beat 100 NES games in a year, meeting monthly in NYC to perform the feat in front of our friends live. We persevered, beating the 100th game on December 29th 2014 and concluded our first season. We started our second season in January 2020, aiming to beat 100 SNES or Sega Genesis games, but when the pandemic hit we put the season on hold. Now that we’ve gone remote it’s more important than ever to have a website to track our progress, self-register for games not already beaten and schedule future meetings.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+About
+The End Society was completed as a phase 5 project at Flatiron School by John Wisneski. This app is designed with React/Redux, and integrates the Giant Bomb API, with  React Bootstrap, and some custom styled components. This React front end connects to a Rails API backend to persist user data. The API stores photos to Cloudinary. The repo link for the backend can be found here: https://github.com/BoltVanderhuge/the-end-society-back.
 
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Usage
+To run locally :
+run npm install to install dependencies
+run npm start to start a local server for the frontend
+The url for the backend server must be saved into your .env.local from with the variable name REACT_APP_BACKEND_URL
+Ex: REACT_APP_BACKEND_URL="http://localhost:3001"
+In order to connect to the Google Maps API, you will need a Google API key with Javascript Maps API enabled. You can get an key here: https://www.giantbomb.com/api/
+store this API key in the env.local file with the variable name REACT_APP_API_KEY
